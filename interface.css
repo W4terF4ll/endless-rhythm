@@ -1,0 +1,134 @@
+.buttons {
+	font-family: "Lucida Console", "Courier New", monospace;
+	height: 60px;
+	width: 60px;
+	font-size: 2em;
+	background-color: #d9d9d7;
+	color: #000000;
+	border-radius: 50%;
+	margin: auto;
+	
+}
+.buttonDiv {
+	z-index: 2;
+	top: 500px;
+	position: relative;
+	border: 2px;
+	border-style: none solid solid solid;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 300px;
+	margin: auto;
+	border-color: #404040;
+	background-color: #706f6f;
+}
+.uiButtons {
+	width: 50px;
+	color: #ffffff;
+	font-family: monospace;
+	margin: auto;
+	border-color: #404040;
+	background-color: #706f6f;
+}
+.chartDisplayDiv {
+	z-index: 1;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	top: 70px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	height: 450px;
+	width: 300px;
+	border: 2px;
+	border-color: #404040;
+	border-style: solid solid none solid;
+	background-color: #706f6f;
+}
+.chartDisplayTopDiv {
+	z-index: 20;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	height: 60px;
+	width: 300px;
+	border: 2px;
+	border-color: #404040;
+	background-color: #d6d6d4;
+}
+.fullDiv {
+	background-color: #d6d6d4;
+	font-family: monospace;
+}
+.chartDiv {
+	z-index: 10;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 300px;
+}
+.laneDiv {
+	position:relative;
+	z-index: 10;
+	float: left;
+	height: 100%;
+	width: 25%;
+}
+.judgeDiv {
+	position: absolute;
+	z-index: 80;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	top: 30%;
+	width: 100px;
+	display: block;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+}
+#judge {
+	font-size: 20;
+	color: #ffffff;
+}
+#combo {
+	font-size: 35;
+	color: #ffffff;
+}
+.note {
+	z-index: 15;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	position: absolute;
+	background-color: red;
+	animation-name: mover;
+	animation-timing-function: linear;
+	animation-duration:2s;
+	animation-iteration-count: 1;
+	animation-fill-mode:forwards;
+}
+@keyframes mover {
+	0%	 {left:0px; top:0px;}
+	100% {background-color:blue; left:0px; top:100%;}
+}
