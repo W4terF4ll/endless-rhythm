@@ -2,7 +2,7 @@
 
 4k endless rhythm game that runs in the browser
 
-this game is not planned to be playable on mobile and smaller devices
+this game is not playable on mobile and smaller devices
 
 made by W4terF4ll
 
