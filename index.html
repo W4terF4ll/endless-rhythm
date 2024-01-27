@@ -5,7 +5,8 @@
 		<meta charset="UTF-8">
 		<meta name="description" content="wip">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title> Keytest </title>
+		<title> Endless Rhythm </title>
+		<link rel="shortcut icon" type="image/png" href="heart.png"/>
 	</head>
 	<body class="fullDiv">
 		<div class="chartDiv">
@@ -38,10 +39,29 @@
 		</div>
 		<div class="uiDiv">
 			<button class="uiButtons" onclick="startCharting()">Start</button>
-			<button class="uiButtons" onclick="stopCharting()">Stop</button>
-			<br>
-			<div>Score: </div>
-			<div id="score">0</div>
+			<button class="uiButtons" onclick="gameOver()">Stop</button>
+			<div class="uiScore">BEST
+				<div class="uiScore" id="highScore">0</div>
+			</div>
+			<div class="uiScore">SCORE
+				<div class="uiScore" id="score">0</div>
+			</div>
+			<div class="uiScore">STAGE
+				<div class="uiScore" id="stage">1</div>
+			</div>
+		</div>
+		<div class="livesContainer">
+			<div class="livesDiv">
+				<div class="lives" id="life9"><img src="heart.png" alt="9"></div>
+				<div class="lives" id="life8"><img src="heart.png" alt="8"></div>
+				<div class="lives" id="life7"><img src="heart.png" alt="7"></div>
+				<div class="lives" id="life6"><img src="heart.png" alt="6"></div>
+				<div class="lives" id="life5"><img src="heart.png" alt="5"></div>
+				<div class="lives" id="life4"><img src="heart.png" alt="4"></div>
+				<div class="lives" id="life3"><img src="heart.png" alt="3"></div>
+				<div class="lives" id="life2"><img src="heart.png" alt="2"></div>
+				<div class="lives" id="life1"><img src="heart.png" alt="1"></div>
+			</div>
 		</div>
 	</body>
 </html>
