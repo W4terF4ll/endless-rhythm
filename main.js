@@ -105,6 +105,9 @@ var stage;
 var audio = new Array(10);
 var audioMiss;
 var audioIndex = 0;
+var overlay;
+var slider;
+var sliderText;
 
 // sets dom vars on window load
 window.onload = function() {
@@ -127,6 +130,42 @@ window.onload = function() {
 		audio[i] = new Audio("hit.wav");
 	}
 	audioMiss = new Audio("miss.wav");
+	overlay = document.getElementById("overlay");
+	speedSlider = document.getElementById("speedSlider");
+	speedSliderText = document.getElementById("speedText");
+	speedSlider.addEventListener('input', function(event) {
+		var sliderValue = event.target.value;
+		speedSliderText.innerText = sliderValue;
+		cssRoot.style.setProperty("--scrollSpeed", sliderValue / 100 + "s");
+	});
+	audioSlider = document.getElementById("audioSlider");
+	audioSliderText = document.getElementById("audioText");
+	audioSlider.addEventListener('input', function(event) {
+		var sliderValue = event.target.value;
+		audioSliderText.innerText = sliderValue;
+		for (var i = 0; i < audio.length; i++) {
+			audio[i].volume = sliderValue / 100;
+		}
+		audioMiss.volume = sliderValue / 100;
+	});
+	stageSlider = document.getElementById("stageSlider");
+	stageSliderText = document.getElementById("stageText");
+	stageSlider.addEventListener('input', function(event) {
+		var sliderValue = event.target.value;
+		stageSliderText.innerText = sliderValue;
+		startingDifficulty = sliderValue;
+		stage.innerText = sliderValue;
+	});
+}
+
+// opens settings menu
+function openSettings() {
+	menuContainer.style.display = "block";
+}
+
+// closes settings menu
+function closeSettings() {
+	menuContainer.style.display = "none";
 }
 
 // records key presses
@@ -266,6 +305,7 @@ function gameOver() {
 
 // starts the charter
 function startCharting() {
+	gameOver();
 	isRunning = true;
 	patternSelector();
 	clearInterval(isCharting);
