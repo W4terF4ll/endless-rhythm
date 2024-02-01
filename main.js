@@ -73,6 +73,8 @@ var noteCount = 1;
 var noteCombo = 0;
 var noteScore = 0;
 var bestScore = 0;
+var noteAccuracy = 1;
+var noteSeen = 1;
 
 // difficulty vars
 var lives = 9;
@@ -108,6 +110,8 @@ var audioIndex = 0;
 var overlay;
 var slider;
 var sliderText;
+var scrollSpeed;
+var accuracy;
 
 // sets dom vars on window load
 window.onload = function() {
@@ -137,6 +141,7 @@ window.onload = function() {
 		var sliderValue = event.target.value;
 		speedSliderText.innerText = sliderValue;
 		cssRoot.style.setProperty("--scrollSpeed", sliderValue / 100 + "s");
+		scrollSpeed = cssRoot.style.getPropertyValue("--scrollSpeed").slice(0, -1);
 	});
 	audioSlider = document.getElementById("audioSlider");
 	audioSliderText = document.getElementById("audioText");
@@ -156,6 +161,9 @@ window.onload = function() {
 		startingDifficulty = sliderValue;
 		stage.innerText = sliderValue;
 	});
+	accuracy = document.getElementById("accuracy");
+	scrollSpeed = cssRoot.style.setProperty("--scrollSpeed", "1s");
+	scrollSpeed = cssRoot.style.getPropertyValue("--scrollSpeed").slice(0, -1);
 }
 
 // opens settings menu
@@ -166,6 +174,24 @@ function openSettings() {
 // closes settings menu
 function closeSettings() {
 	menuContainer.style.display = "none";
+}
+
+// returns settings to default
+function defaultSettings() {
+	stageSlider.value = 1;
+	stageSliderText.innerText = 1;
+	startingDifficulty = 1;
+	stage.innerText = 1
+	audioSlider.value = 100;
+	audioSliderText.innerText = 100;
+	for (var i = 0; i < audio.length; i++) {
+		audio[i].volume = 100 / 100;
+	}
+	audioMiss.volume = 100 / 100;
+	speedSlider.value = 100;
+	speedSliderText.innerText = 100;
+	cssRoot.style.setProperty("--scrollSpeed", 100 / 100 + "s");
+	scrollSpeed = cssRoot.style.getPropertyValue("--scrollSpeed").slice(0, -1);
 }
 
 // records key presses
@@ -190,6 +216,10 @@ document.addEventListener("keypress", function onEvent(event) {
 		button4.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane4, "button4");
 		judgment(closestNote[0], closestNote[1]);
+	} else if (event.key === "r") {
+		startCharting();
+	} else if (event.key === "f") {
+		gameOver();
 	}
 });
 
@@ -221,30 +251,34 @@ function playSound() {
 
 // judges accuracy, updates combo & score
 function judgment(note, dist) {
-	if (dist < 15) {
+	if (dist < (30 / scrollSpeed)) {
 		noteCombo += 1;
 		noteScore += 300 * (1 + (noteCombo / 100));
+		noteAccuracy += 1;
 		judge.style.color = "#ffff33";
 		judge.innerText = "PERFECT!!";
 		playSound();
 		note.remove();
-	} else if (dist < 30) {
+	} else if (dist < (45 / scrollSpeed)) {
 		noteCombo += 1;
 		noteScore += 200 * (1 + (noteCombo / 100));
+		noteAccuracy += 0.75;
 		judge.style.color = "#70dbdb";
 		judge.innerText = "Great!";
 		playSound();
 		note.remove();
-	} else if (dist < 45) {
+	} else if (dist < (60 / scrollSpeed)) {
 		noteCombo += 1;
 		noteScore += 100 * (1 + (noteCombo / 100));
+		noteAccuracy += 0.5;
 		judge.style.color = "#1aff1a";
 		judge.innerText = "Good";
 		playSound();
 		note.remove();
-	} else if (dist < 70) {
+	} else if (dist < (100 / scrollSpeed)) {
 		noteCombo += 1;
 		noteScore += 50 * (1 + (noteCombo / 100));
+		noteAccuracy += 0.25;
 		judge.style.color = "#ff3385";
 		judge.innerText = "Bad...";
 		playSound();
@@ -256,6 +290,7 @@ function judgment(note, dist) {
 		judge.innerText = "MISS";
 		lifeLost();
 	}
+	noteSeen += 1;
 	judge.classList.remove("bounce");
 	combo.classList.remove("bounce");
 	judge.scrollBy(0, 0);
@@ -264,6 +299,9 @@ function judgment(note, dist) {
 	combo.classList.add("bounce");
 	combo.innerText = noteCombo;
 	score.innerText = Math.round(noteScore);
+	if (isRunning) {
+		accuracy.innerText = ((noteAccuracy / noteSeen) * 100).toFixed(2) + "%";
+	}
 }
 
 // subtracts lives
@@ -301,6 +339,9 @@ function gameOver() {
 	increaseCount = 0;
 	stage.innerText = noteDifficulty;
 	lives = 9;
+	noteAccuracy = 1;
+	noteSeen = 1;
+	accuracy.innerText = ((noteAccuracy / noteSeen) * 100).toFixed(2) + "%";
 }
 
 // starts the charter
@@ -408,6 +449,7 @@ function spawnNote(num) {
 	divTest.className = "note";
 	divTest.setAttribute("id", "note" + noteCount);
 	divTest.addEventListener('animationend', () => {
+		noteSeen += 1;
 		audioMiss.play();
 		noteCombo = 0;
 		judge.style.color = "#ff0000";
@@ -415,6 +457,7 @@ function spawnNote(num) {
 		combo.innerText = noteCombo;
 		divTest.remove();
 		lifeLost();
+		accuracy.innerText = ((noteAccuracy / noteSeen) * 100).toFixed(2) + "%";
 	});
 	lane.appendChild(divTest);
 	noteCount += 1;
