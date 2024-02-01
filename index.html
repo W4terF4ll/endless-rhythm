@@ -38,15 +38,18 @@
 			<button id="button4" class="buttons">L</button>
 		</div>
 		<div class="uiDiv">
-			<button class="uiButtons" onclick="startCharting()">Start</button>
-			<button class="uiButtons" onclick="gameOver()">Stop</button>
-			<div class="uiScore">BEST
+			<button class="uiButtons" onclick="startCharting()">Start [R]</button>
+			<button class="uiButtons" onclick="gameOver()">Stop [F]</button>
+			<div class="uiHeader">BEST
 				<div class="uiScore" id="highScore">0</div>
 			</div>
-			<div class="uiScore">SCORE
+			<div class="uiHeader">SCORE
 				<div class="uiScore" id="score">0</div>
 			</div>
-			<div class="uiScore">STAGE
+			<div class="uiHeader">ACC
+				<div class="uiScore" id="accuracy">100.00%</div>
+			</div>
+			<div class="uiHeader">STAGE
 				<div class="uiScore" id="stage">1</div>
 			</div>
 		</div>
@@ -85,6 +88,9 @@
 					<div class="settingsText">Starting Stage</div>
 					<input type="range" min="1" max="4" value="1" class="slider" id="stageSlider">
 					<div id="stageText" class="settingsSide">1</div>
+				</div>
+				<div class="settingsList">
+					<button class="settingsButton" onclick="defaultSettings()">Default</button>
 				</div>
 			</div>
 		</div>
