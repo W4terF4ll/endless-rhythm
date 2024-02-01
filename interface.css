@@ -81,10 +81,6 @@
 	text-align: center;
 	width: 40%;
 }
-.settingsText {
-	text-align: center;
-	width: 40%;
-}
 .settingsSide {
 	text-align: center;
 	width: 20%;
@@ -211,9 +207,16 @@
 	align-items: center;
 	justify-content: center;
 }
+.uiHeader {
+	margin-bottom:20px;
+	margin-top:20px;
+	font-size: 25;
+	font-weight: bold;
+	color: #000000;
+}
 .uiScore {
 	margin: 2px;
-	font-size: 25;
+	font-size: 20;
 	font-weight: bold;
 	color: #000000;
 }
