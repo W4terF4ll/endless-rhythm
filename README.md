@@ -1,4 +1,4 @@
-# Endless Rhythm v0.7
+# Endless Rhythm v0.75
 
 4k endless rhythm game that runs in the browser
 
@@ -8,4 +8,4 @@ made by W4terF4ll
 
 ## -- PLANS --
 
-more/better patterns, static difficulty, saving
+even more/better patterns, static difficulty (?), saving
