@@ -8,7 +8,8 @@ made by W4terF4ll
 
 ## -- CHANGELOG --
 
-v0.8: added keybinds, settings can now be saved, major changes to scoring and difficulty scaling
+# v0.8 
+added keybinds, settings can now be saved, major changes to scoring and difficulty scaling
 
 ## -- PLANS --
 
