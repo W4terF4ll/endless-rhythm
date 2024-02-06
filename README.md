@@ -9,8 +9,8 @@ Made by W4terF4ll :>
 ## Changelog
 
 ### v0.8 
-added keybinds, settings can now be saved, major changes to scoring and difficulty scaling
+Added keybinds, settings can now be saved, major changes to scoring and difficulty scaling.
 
 ## Plans
 
-even more/better patterns, practice mode, long notes(?), better design, custom colors
+Even more/better patterns, practice mode, long notes(?), better design, custom colors.
