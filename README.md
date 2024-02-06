@@ -4,7 +4,7 @@ A 4k Endless rhythm game that runs in the browser.
 
 This game is not playable on mobile and smaller/low end devices.
 
-Made by W4terF4ll
+Made by W4terF4ll :>
 
 ## Changelog
 
