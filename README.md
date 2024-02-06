@@ -6,11 +6,11 @@ this game is not playable on mobile and smaller devices
 
 made by W4terF4ll
 
-## CHANGELOG
+## Changelog
 
 ### v0.8 
 added keybinds, settings can now be saved, major changes to scoring and difficulty scaling
 
-## PLANS
+## Plans
 
 even more/better patterns, practice mode, long notes(?), better design, custom colors
