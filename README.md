@@ -12,4 +12,4 @@ v0.8: added keybinds, settings can now be saved, major changes to scoring and di
 
 ## -- PLANS --
 
-even more/better patterns, practice mode, long notes(?)
+even more/better patterns, practice mode, long notes(?), better design, custom colors
