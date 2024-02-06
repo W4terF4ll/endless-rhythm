@@ -80,21 +80,24 @@ var noteSeen = 1;
 
 // difficulty vars
 var lives = 9;
-var startingSpacing = 150;
+var totalDifficulty = 1;
+var savedSpacing = 0;
+var startingSpacing = 250;
 var noteSpacing = startingSpacing;
 var spaceDifficulty = 0;
-var spaceIncrease = 100;
+var spaceIncrease = 50;
 var startingDifficulty = 1;
-var noteDifficulty = startingDifficulty;
+var noteDifficulty = 1;
 var increaseCount = 0;
-var noteIncrease = 3;
+var noteIncrease = 5;
 var randomType = Math.floor(Math.random() * noteDifficulty) + 1;
 
 // dom vars
 var button1;
-var button2
+var button2;
 var button3;
 var button4;
+var buttonList = [button1, button2, button3, button4];
 var lane1;
 var lane2;
 var lane3;
@@ -114,14 +117,28 @@ var slider;
 var sliderText;
 var scrollSpeed;
 var accuracy;
+var keySetting1;
+var keySetting2;
+var keySetting3;
+var keySetting4;
+var keySettingList = [keySetting1, keySetting2, keySetting3, keySetting4];
+
+// saved vars
+var speedSliderValue;
+var audioSliderValue;
+var stageSliderValue;
+var keybinds;
 
 // sets dom vars on window load
 window.onload = function() {
+	
+	// bunch of elements
 	cssRoot = document.documentElement;
 	button1 = document.getElementById("button1");
 	button2 = document.getElementById("button2");
 	button3 = document.getElementById("button3");
 	button4 = document.getElementById("button4");
+	buttonList = [button1, button2, button3, button4];
 	lane1 = document.getElementById("lane1");
 	lane2 = document.getElementById("lane2");
 	lane3 = document.getElementById("lane3");
@@ -132,11 +149,27 @@ window.onload = function() {
 	score = document.getElementById("score");
 	highScore = document.getElementById("highScore");
 	stage = document.getElementById("stage");
+	overlay = document.getElementById("overlay");
+	accuracy = document.getElementById("accuracy");
+	keySetting1 = document.getElementById("keySetting1");
+	keySetting2 = document.getElementById("keySetting2");
+	keySetting3 = document.getElementById("keySetting3");
+	keySetting4 = document.getElementById("keySetting4");
+	keySettingList = [keySetting1, keySetting2, keySetting3, keySetting4];
+	
+	// creating list of audio
 	for (var i = 0; i < audio.length; i++) {
 		audio[i] = new Audio("hit.wav");
 	}
 	audioMiss = new Audio("miss.wav");
-	overlay = document.getElementById("overlay");
+
+	// setting saved vars
+	speedSliderValue = speedSlider.value;
+	audioSliderValue = audioSlider.value;
+	stageSliderValue = stageSlider.value;
+	keybinds = ["a", "s", "k", "l"];
+	
+	// speed slider logic
 	speedSlider = document.getElementById("speedSlider");
 	speedSliderText = document.getElementById("speedText");
 	speedSlider.addEventListener('input', function(event) {
@@ -145,6 +178,10 @@ window.onload = function() {
 		cssRoot.style.setProperty("--scrollSpeed", sliderValue / 100 + "s");
 		scrollSpeed = cssRoot.style.getPropertyValue("--scrollSpeed").slice(0, -1);
 	});
+	scrollSpeed = cssRoot.style.setProperty("--scrollSpeed", "1s");
+	scrollSpeed = cssRoot.style.getPropertyValue("--scrollSpeed").slice(0, -1);
+	
+	// audio slider logic
 	audioSlider = document.getElementById("audioSlider");
 	audioSliderText = document.getElementById("audioText");
 	audioSlider.addEventListener('input', function(event) {
@@ -155,6 +192,8 @@ window.onload = function() {
 		}
 		audioMiss.volume = sliderValue / 100;
 	});
+	
+	// stage slider logic
 	stageSlider = document.getElementById("stageSlider");
 	stageSliderText = document.getElementById("stageText");
 	stageSlider.addEventListener('input', function(event) {
@@ -163,9 +202,52 @@ window.onload = function() {
 		startingDifficulty = sliderValue;
 		stage.innerText = sliderValue;
 	});
-	accuracy = document.getElementById("accuracy");
-	scrollSpeed = cssRoot.style.setProperty("--scrollSpeed", "1s");
+	
+	// keybinds logic
+	for (var i = 0; i < keySettingList; i++) {
+		keySettingList[i].innerText = keybinds[i].toUpperCase();
+		buttonList[i].innerText = keybinds[i].toUpperCase();
+	}
+	
+	// loads settings if save exists
+	loadGame();
+}
+
+// saves game
+function saveGame() {
+	speedSliderValue = speedSlider.value;
+	audioSliderValue = audioSlider.value;
+	stageSliderValue = stageSlider.value;
+	localStorage.setItem("speedSliderValue", speedSliderValue);
+	localStorage.setItem("audioSliderValue", audioSliderValue);
+	localStorage.setItem("stageSliderValue", stageSliderValue);
+	localStorage.setItem("keybinds", JSON.stringify(keybinds));
+}
+
+// loads game
+function loadGame() {
+	speedSliderValue = localStorage.getItem("speedSliderValue") || 100;
+	audioSliderValue = localStorage.getItem("audioSliderValue") || 100;
+	stageSliderValue = localStorage.getItem("stageSliderValue") || 1;
+	keybinds = JSON.parse(localStorage.getItem("keybinds")) || ["a", "s", "k", "l"];
+	speedSlider.value = speedSliderValue;
+	speedSliderText.innerText = speedSliderValue;
+	cssRoot.style.setProperty("--scrollSpeed", speedSliderValue / 100 + "s");
 	scrollSpeed = cssRoot.style.getPropertyValue("--scrollSpeed").slice(0, -1);
+	audioSlider.value = audioSliderValue;
+	audioSliderText.innerText = audioSliderValue;
+	for (var i = 0; i < audio.length; i++) {
+		audio[i].volume = audioSliderValue / 100;
+	}
+	audioMiss.volume = audioSliderValue / 100;
+	stageSlider.value = stageSliderValue;
+	stageSliderText.innerText = stageSliderValue;
+	startingDifficulty = stageSliderValue;
+	stage.innerText = stageSliderValue;
+	for (var i = 0; i < keySettingList.length; i++) {
+		keySettingList[i].innerText = keybinds[i].toUpperCase();
+		buttonList[i].innerText = keybinds[i].toUpperCase();
+	}
 }
 
 // opens settings menu
@@ -194,26 +276,58 @@ function defaultSettings() {
 	speedSliderText.innerText = 100;
 	cssRoot.style.setProperty("--scrollSpeed", 100 / 100 + "s");
 	scrollSpeed = cssRoot.style.getPropertyValue("--scrollSpeed").slice(0, -1);
+	keybinds = ["a", "s", "k", "l"];
+	for (var i = 0; i < keySettingList.length; i++) {
+		keySettingList[i].innerText = keybinds[i].toUpperCase();
+		buttonList[i].innerText = keybinds[i].toUpperCase();
+	}
+}
+
+// detects keypress for rebind
+function keyWait(k) {
+	document.addEventListener('keydown', function onListen(e) {
+		e = e || window.event;
+		if (keybinds.includes(e.key)) {
+			var holder = keybinds[k]
+			var holderLocation = keybinds.indexOf(e.key)
+			keybinds[holderLocation] = holder;
+			keybinds[k] = e.key;
+			for (var i = 0; i < keySettingList.length; i++) {
+				keySettingList[i].innerText = keybinds[i].toUpperCase();
+				buttonList[i].innerText = keybinds[i].toUpperCase();
+			}
+			document.removeEventListener('keydown', onListen);
+			return false;
+		} else {
+			keybinds[k] = e.key;
+			for (var i = 0; i < keySettingList.length; i++) {
+				keySettingList[i].innerText = keybinds[i].toUpperCase();
+				buttonList[i].innerText = keybinds[i].toUpperCase();
+			}
+			document.removeEventListener('keydown', onListen);
+			return false;
+		}
+	});
 }
 
 // records key presses
 document.addEventListener("keypress", function onEvent(event) {
-	if (event.key === "a") {
+	if (event.key === keybinds[0]) {
 		button1.style.backgroundColor = "#7dfffb";
 		button1.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane1, "button1");
 		judgment(closestNote[0], closestNote[1]);
-	} else if (event.key === "s") {
+	} else if (event.key === keybinds[1]) {
 		button2.style.backgroundColor = "#7dfffb";
 		button2.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane2, "button2");
 		judgment(closestNote[0], closestNote[1]);
-	} else if (event.key === "k") {
+	} else if (event.key === keybinds[2]) {
 		button3.style.backgroundColor = "#7dfffb";
 		button3.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane3, "button3");
 		judgment(closestNote[0], closestNote[1]);
-	} else if (event.key === "l") {
+	} else if (event.key === keybinds[3]) {
 		button4.style.backgroundColor = "#7dfffb";
 		button4.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane4, "button4");
@@ -227,16 +341,16 @@ document.addEventListener("keypress", function onEvent(event) {
 
 // records key releases
 document.addEventListener("keyup", function onEvent(event) {
-	if (event.key === "a") {
+	if (event.key === keybinds[0]) {
 		button1.style.backgroundColor = "#d9d9d7";
 		button1.style.color = "#000000";
-	} else if (event.key === "s") {
+	} else if (event.key === keybinds[1]) {
 		button2.style.backgroundColor = "#d9d9d7";
 		button2.style.color = "#000000";
-	} else if (event.key === "k") {
+	} else if (event.key === keybinds[2]) {
 		button3.style.backgroundColor = "#d9d9d7";
 		button3.style.color = "#000000";
-	} else if (event.key === "l") {
+	} else if (event.key === keybinds[3]) {
 		button4.style.backgroundColor = "#d9d9d7";
 		button4.style.color = "#000000";
 	}
@@ -255,7 +369,7 @@ function playSound() {
 function judgment(note, dist) {
 	if (dist < (30 / scrollSpeed)) {
 		noteCombo += 1;
-		noteScore += 300 * (1 + (noteCombo / 100));
+		noteScore += (300 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 100));
 		noteAccuracy += 1;
 		judge.style.color = "#ffff33";
 		judge.innerText = "PERFECT!!";
@@ -263,7 +377,7 @@ function judgment(note, dist) {
 		note.remove();
 	} else if (dist < (45 / scrollSpeed)) {
 		noteCombo += 1;
-		noteScore += 200 * (1 + (noteCombo / 100));
+		noteScore += (200 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 100));
 		noteAccuracy += 0.75;
 		judge.style.color = "#70dbdb";
 		judge.innerText = "Great!";
@@ -271,7 +385,7 @@ function judgment(note, dist) {
 		note.remove();
 	} else if (dist < (60 / scrollSpeed)) {
 		noteCombo += 1;
-		noteScore += 100 * (1 + (noteCombo / 100));
+		noteScore += (100 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 100));
 		noteAccuracy += 0.5;
 		judge.style.color = "#1aff1a";
 		judge.innerText = "Good";
@@ -279,7 +393,7 @@ function judgment(note, dist) {
 		note.remove();
 	} else if (dist < (100 / scrollSpeed)) {
 		noteCombo += 1;
-		noteScore += 50 * (1 + (noteCombo / 100));
+		noteScore += (50 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 100));
 		noteAccuracy += 0.25;
 		judge.style.color = "#ff3385";
 		judge.innerText = "Bad...";
@@ -336,19 +450,23 @@ function gameOver() {
 		lifeList[i].style.display = "block";
 	}
 	noteSpacing = startingSpacing;
-	noteDifficulty = startingDifficulty;
+	noteDifficulty = 1;
 	spaceDifficulty = 0;
 	increaseCount = 0;
-	stage.innerText = noteDifficulty;
+	stage.innerText = startingDifficulty;
 	lives = 9;
 	noteAccuracy = 1;
 	noteSeen = 1;
-	accuracy.innerText = ((noteAccuracy / noteSeen) * 100).toFixed(2) + "%";
+	totalDifficulty = 1;
+	accuracy.innerText = (100).toFixed(2) + "%";
 }
 
 // starts the charter
 function startCharting() {
 	gameOver();
+	for (i = (spaceIncrease * noteIncrease); i <= startingDifficulty * (spaceIncrease * noteIncrease); i++) {
+		difficultyLogic()
+	}
 	isRunning = true;
 	patternSelector();
 	clearInterval(isCharting);
@@ -428,20 +546,53 @@ function autoCharter() {
 		}
 		noteLogic();
 	}
+	difficultyLogic()
+	clearInterval(isCharting);
+	isCharting = setInterval(function(){autoCharter()}, noteSpacing);
+}
+
+function difficultyLogic() {
 	spaceDifficulty += 1;
 	if (spaceDifficulty >= spaceIncrease) {
 		spaceDifficulty = 0;
-		noteSpacing = noteSpacing * 0.9;
+		noteSpacing = noteSpacing * 0.95;
 		increaseCount += 1;
-		if (increaseCount >= noteIncrease && noteDifficulty < 4) {
-			noteSpacing = startingSpacing;
+		if (increaseCount >= noteIncrease) {
 			increaseCount = 0;
-			noteDifficulty += 1;
-			stage.innerText = noteDifficulty;
+			totalDifficulty += 1
+			stage.innerText = totalDifficulty;
+			if (totalDifficulty == 3) {
+				noteDifficulty = 2;
+				noteSpacing = startingSpacing;
+			} else if (totalDifficulty == 5) {
+				noteDifficulty = 1;
+				savedSpacing = noteSpacing;
+			} else if (totalDifficulty == 6) {
+				noteDifficulty = 2;
+				noteSpacing = savedSpacing;
+			} else if (totalDifficulty == 7) {
+				noteDifficulty = 3;
+				noteSpacing = startingSpacing;
+			} else if (totalDifficulty == 9) {
+				noteDifficulty = 4;
+				noteSpacing = startingSpacing;
+			} else if (totalDifficulty == 11) {
+				noteDifficulty = 3;
+				savedSpacing = noteSpacing;
+			} else if (totalDifficulty == 12) {
+				noteDifficulty = 4;
+				noteSpacing = savedSpacing;
+			} else if (totalDifficulty >= 13) {
+				if (totalDifficulty % 4 == 1) {
+					noteDifficulty = 1;
+					savedSpacing = noteSpacing;
+				} else {
+					noteDifficulty += 1;
+					noteSpacing = savedSpacing;
+				}
+			}
 		}
 	}
-	clearInterval(isCharting);
-	isCharting = setInterval(function(){autoCharter()}, noteSpacing);
 }
 
 // spawns a note on a set lane
