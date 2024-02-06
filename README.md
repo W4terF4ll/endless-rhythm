@@ -9,7 +9,7 @@ Made by W4terF4ll :>
 ## Changelog
 
 ### v0.81
-Reworked difficulty again because im stupid.
+Reworked difficulty scaling again.
 ### v0.8 
 Added keybinds, settings can now be saved, major changes to scoring and difficulty scaling.
 
