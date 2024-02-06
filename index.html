@@ -73,7 +73,7 @@
 			<div id="overlay" onclick="closeSettings()">
 			</div>
 			<div id="menuDiv">
-				<div class="settingsList">Endless Rhythm v0.75</div>
+				<div class="settingsList">Endless Rhythm v0.8</div>
 				<div class="settingsList">
 					<div class="settingsText">Scroll Speed</div>
 					<input type="range" min="50" max="200" value="100" class="slider" id="speedSlider">
@@ -86,11 +86,20 @@
 				</div>
 				<div class="settingsList">
 					<div class="settingsText">Starting Stage</div>
-					<input type="range" min="1" max="4" value="1" class="slider" id="stageSlider">
+					<input type="range" min="1" max="20" value="1" class="slider" id="stageSlider">
 					<div id="stageText" class="settingsSide">1</div>
 				</div>
 				<div class="settingsList">
+					<div class="settingsText">Keybinds</div>
+					<button class="settingsButton" id="keySetting1" onclick="keyWait(0)">A</button>
+					<button class="settingsButton" id="keySetting2" onclick="keyWait(1)">S</button>
+					<button class="settingsButton" id="keySetting3" onclick="keyWait(2)">K</button>
+					<button class="settingsButton" id="keySetting4" onclick="keyWait(3)">L</button>
+				</div>
+				<div class="settingsList">
 					<button class="settingsButton" onclick="defaultSettings()">Default</button>
+					<button class="settingsButton" onclick="saveGame()">Save</button>
+					<button class="settingsButton" onclick="loadGame()">Load</button>
 				</div>
 			</div>
 		</div>
