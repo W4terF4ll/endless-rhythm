@@ -81,8 +81,8 @@ var noteSeen = 1;
 // difficulty vars
 var lives = 9;
 var totalDifficulty = 1;
-var savedSpacing = 0;
 var startingSpacing = 250;
+var savedSpacing = startingSpacing;
 var noteSpacing = startingSpacing;
 var spaceDifficulty = 0;
 var spaceIncrease = 50;
@@ -458,6 +458,7 @@ function gameOver() {
 	noteAccuracy = 1;
 	noteSeen = 1;
 	totalDifficulty = 1;
+	savedSpacing = startingSpacing;
 	accuracy.innerText = (100).toFixed(2) + "%";
 }
 
@@ -561,35 +562,12 @@ function difficultyLogic() {
 			increaseCount = 0;
 			totalDifficulty += 1
 			stage.innerText = totalDifficulty;
-			if (totalDifficulty == 3) {
-				noteDifficulty = 2;
-				noteSpacing = startingSpacing;
-			} else if (totalDifficulty == 5) {
+			if (totalDifficulty % 4 == 1) {
 				noteDifficulty = 1;
 				savedSpacing = noteSpacing;
-			} else if (totalDifficulty == 6) {
-				noteDifficulty = 2;
+			} else {
+				noteDifficulty += 1;
 				noteSpacing = savedSpacing;
-			} else if (totalDifficulty == 7) {
-				noteDifficulty = 3;
-				noteSpacing = startingSpacing;
-			} else if (totalDifficulty == 9) {
-				noteDifficulty = 4;
-				noteSpacing = startingSpacing;
-			} else if (totalDifficulty == 11) {
-				noteDifficulty = 3;
-				savedSpacing = noteSpacing;
-			} else if (totalDifficulty == 12) {
-				noteDifficulty = 4;
-				noteSpacing = savedSpacing;
-			} else if (totalDifficulty >= 13) {
-				if (totalDifficulty % 4 == 1) {
-					noteDifficulty = 1;
-					savedSpacing = noteSpacing;
-				} else {
-					noteDifficulty += 1;
-					noteSpacing = savedSpacing;
-				}
 			}
 		}
 	}
