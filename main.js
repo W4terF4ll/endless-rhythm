@@ -92,6 +92,12 @@ var increaseCount = 0;
 var noteIncrease = 5;
 var randomType = Math.floor(Math.random() * noteDifficulty) + 1;
 
+// note color vars
+var isFade = true;
+var heldFadeColor;
+var fadeColor;
+var noteColor;
+
 // dom vars
 var button1;
 var button2;
@@ -121,13 +127,23 @@ var keySetting1;
 var keySetting2;
 var keySetting3;
 var keySetting4;
-var keySettingList = [keySetting1, keySetting2, keySetting3, keySetting4];
+var keySetting5;
+var keySetting6;
+var keySettingList = [keySetting1, keySetting2, keySetting3, keySetting4, keySetting5, keySetting6];
+var fadeBox;
+var noteColorText;
+var fadeColorText;
+var startButtonDisplay;
+var stopButtonDisplay;
 
 // saved vars
 var speedSliderValue;
 var audioSliderValue;
 var stageSliderValue;
 var keybinds;
+var noteColorValue;
+var fadeColorValue;
+var fadeBoxChecked;
 
 // sets dom vars on window load
 window.onload = function() {
@@ -155,19 +171,32 @@ window.onload = function() {
 	keySetting2 = document.getElementById("keySetting2");
 	keySetting3 = document.getElementById("keySetting3");
 	keySetting4 = document.getElementById("keySetting4");
-	keySettingList = [keySetting1, keySetting2, keySetting3, keySetting4];
+	keySetting5 = document.getElementById("keySetting5");
+	keySetting6 = document.getElementById("keySetting6");
+	keySettingList = [keySetting1, keySetting2, keySetting3, keySetting4, keySetting5, keySetting6];
+	fadeBox = document.getElementById("fadeBox");
+	noteColorText = document.getElementById("noteColorText");
+	fadeColorText = document.getElementById("fadeColorText");
+	startButtonDisplay = document.getElementById("startButtonDisplay");
+	stopButtonDisplay = document.getElementById("stopButtonDisplay");
 	
 	// creating list of audio
 	for (var i = 0; i < audio.length; i++) {
 		audio[i] = new Audio("hit.wav");
 	}
 	audioMiss = new Audio("miss.wav");
+	
+	// setting default fade
+	fadeBox.checked = true;
 
 	// setting saved vars
 	speedSliderValue = speedSlider.value;
 	audioSliderValue = audioSlider.value;
 	stageSliderValue = stageSlider.value;
-	keybinds = ["a", "s", "k", "l"];
+	keybinds = ["a", "s", "k", "l", "r", "f"];
+	noteColorValue = noteColorText.value;
+	fadeColorValue = fadeColorText.value;
+	fadeBoxChecked = fadeBox.checked;
 	
 	// speed slider logic
 	speedSlider = document.getElementById("speedSlider");
@@ -178,7 +207,7 @@ window.onload = function() {
 		cssRoot.style.setProperty("--scrollSpeed", sliderValue / 100 + "s");
 		scrollSpeed = cssRoot.style.getPropertyValue("--scrollSpeed").slice(0, -1);
 	});
-	scrollSpeed = cssRoot.style.setProperty("--scrollSpeed", "1s");
+	cssRoot.style.setProperty("--scrollSpeed", "1s");
 	scrollSpeed = cssRoot.style.getPropertyValue("--scrollSpeed").slice(0, -1);
 	
 	// audio slider logic
@@ -204,10 +233,14 @@ window.onload = function() {
 	});
 	
 	// keybinds logic
-	for (var i = 0; i < keySettingList; i++) {
-		keySettingList[i].innerText = keybinds[i].toUpperCase();
-		buttonList[i].innerText = keybinds[i].toUpperCase();
-	}
+	keyRebinder();
+	
+	// note color logic
+	cssRoot.style.setProperty("--noteColor", "#ff2142");
+	noteColor = cssRoot.style.getPropertyValue("--noteColor").slice(1);
+	cssRoot.style.setProperty("--fadeColor", "#3266a8");
+	fadeColor = cssRoot.style.getPropertyValue("--fadeColor").slice(1);
+	heldFadeColor = fadeColor;
 	
 	// loads settings if save exists
 	loadGame();
@@ -218,18 +251,48 @@ function saveGame() {
 	speedSliderValue = speedSlider.value;
 	audioSliderValue = audioSlider.value;
 	stageSliderValue = stageSlider.value;
+	noteColorValue = noteColorText.value;
+	fadeColorValue = fadeColorText.value;
+	fadeBoxChecked = fadeBox.checked;
 	localStorage.setItem("speedSliderValue", speedSliderValue);
 	localStorage.setItem("audioSliderValue", audioSliderValue);
 	localStorage.setItem("stageSliderValue", stageSliderValue);
 	localStorage.setItem("keybinds", JSON.stringify(keybinds));
+	localStorage.setItem("noteColorValue", noteColorValue);
+	localStorage.setItem("fadeColorValue", fadeColorValue);
+	localStorage.setItem("fadeBoxChecked", fadeBoxChecked);
 }
 
 // loads game
 function loadGame() {
 	speedSliderValue = localStorage.getItem("speedSliderValue") || 100;
+	if ("undefined" === speedSliderValue) {
+		speedSliderValue = 100;
+	}
 	audioSliderValue = localStorage.getItem("audioSliderValue") || 100;
+	if ("undefined" === audioSliderValue) {
+		audioSliderValue = 100;
+	}
 	stageSliderValue = localStorage.getItem("stageSliderValue") || 1;
-	keybinds = JSON.parse(localStorage.getItem("keybinds")) || ["a", "s", "k", "l"];
+	if ("undefined" === stageSliderValue) {
+		stageSliderValue = 1;
+	}
+	noteColorValue = localStorage.getItem("noteColorValue") || "#ff2142";
+	if ("undefined" === noteColorValue) {
+		noteColorValue = "#ff2142";
+	}
+	fadeColorValue = localStorage.getItem("fadeColorValue") || "#3266a8";
+	if ("undefined" === fadeColorValue) {
+		fadeColorValue = "#3266a8";
+	}
+	fadeBoxChecked = localStorage.getItem("fadeBoxChecked") || true;
+	if ("undefined" === fadeColorValue) {
+		fadeColorValue = true;
+	}
+	keybinds = JSON.parse(localStorage.getItem("keybinds")) || ["a", "s", "k", "l", "r", "f"];
+	if (keybinds.length < 6) {
+		keybinds = ["a", "s", "k", "l", "r", "f"];
+	}
 	speedSlider.value = speedSliderValue;
 	speedSliderText.innerText = speedSliderValue;
 	cssRoot.style.setProperty("--scrollSpeed", speedSliderValue / 100 + "s");
@@ -244,10 +307,22 @@ function loadGame() {
 	stageSliderText.innerText = stageSliderValue;
 	startingDifficulty = stageSliderValue;
 	stage.innerText = stageSliderValue;
-	for (var i = 0; i < keySettingList.length; i++) {
-		keySettingList[i].innerText = keybinds[i].toUpperCase();
-		buttonList[i].innerText = keybinds[i].toUpperCase();
+	keyRebinder();
+	noteColorText.value = noteColorValue;
+	fadeColorText.value = fadeColorValue;
+	noteColorSet();
+	fadeColorSet();
+	if (fadeBoxChecked == "false") {
+		fadeBox.checked = false;
+		fadeColor = noteColor;
+		isFade = false;
+	} else {
+		fadeBox.checked = true;
+		fadeColor = heldFadeColor;
+		isFade = true;
 	}
+	cssRoot.style.setProperty("--fadeColor", "#" + fadeColor);
+	fadeColor = cssRoot.style.getPropertyValue("--fadeColor").slice(1);
 }
 
 // opens settings menu
@@ -258,6 +333,45 @@ function openSettings() {
 // closes settings menu
 function closeSettings() {
 	menuContainer.style.display = "none";
+}
+
+// toggles fade
+function fadeClicked() {
+	if (isFade) {
+		fadeColor = noteColor;
+		isFade = false;
+	} else {
+		fadeColor = heldFadeColor;
+		isFade = true;
+	}
+	cssRoot.style.setProperty("--fadeColor", "#" + fadeColor);
+	fadeColor = cssRoot.style.getPropertyValue("--fadeColor").slice(1);
+}
+
+// sets note color
+function noteColorSet() {
+	cssRoot.style.setProperty("--noteColor", noteColorText.value);
+	noteColor = cssRoot.style.getPropertyValue("--noteColor").slice(1);
+}
+
+// sets fade color
+function fadeColorSet() {
+	cssRoot.style.setProperty("--fadeColor", fadeColorText.value);
+	fadeColor = cssRoot.style.getPropertyValue("--fadeColor").slice(1);
+}
+
+// rebinds keys
+function keyRebinder() {
+	for (var i = 0; i < keySettingList.length; i++) {
+		keySettingList[i].innerText = keybinds[i].toUpperCase();
+		if (i < 4) {
+			buttonList[i].innerText = keybinds[i].toUpperCase();
+		} else if (i == 4) {
+			startButtonDisplay.innerText = keybinds[i].toUpperCase();
+		} else if (i == 5) {
+			stopButtonDisplay.innerText = keybinds[i].toUpperCase();
+		}
+	}
 }
 
 // returns settings to default
@@ -276,11 +390,20 @@ function defaultSettings() {
 	speedSliderText.innerText = 100;
 	cssRoot.style.setProperty("--scrollSpeed", 100 / 100 + "s");
 	scrollSpeed = cssRoot.style.getPropertyValue("--scrollSpeed").slice(0, -1);
-	keybinds = ["a", "s", "k", "l"];
-	for (var i = 0; i < keySettingList.length; i++) {
-		keySettingList[i].innerText = keybinds[i].toUpperCase();
-		buttonList[i].innerText = keybinds[i].toUpperCase();
-	}
+	keybinds = ["a", "s", "k", "l", "r", "f"];
+	keyRebinder();
+	fadeBox.checked = true;
+	isFade = true;
+	fadeColor = heldFadeColor;
+	cssRoot.style.setProperty("--fadeColor", "#" + fadeColor);
+	fadeColor = cssRoot.style.getPropertyValue("--fadeColor").slice(1);
+	noteColorText.value = "#ff2142";
+	fadeColorText.value = "#3266a8";
+	noteColorSet();
+	fadeColorSet();
+	fadeBox.checked = true;
+	isFade = false;
+	fadeClicked();
 }
 
 // detects keypress for rebind
@@ -292,18 +415,12 @@ function keyWait(k) {
 			var holderLocation = keybinds.indexOf(e.key)
 			keybinds[holderLocation] = holder;
 			keybinds[k] = e.key;
-			for (var i = 0; i < keySettingList.length; i++) {
-				keySettingList[i].innerText = keybinds[i].toUpperCase();
-				buttonList[i].innerText = keybinds[i].toUpperCase();
-			}
+			keyRebinder();
 			document.removeEventListener('keydown', onListen);
 			return false;
 		} else {
 			keybinds[k] = e.key;
-			for (var i = 0; i < keySettingList.length; i++) {
-				keySettingList[i].innerText = keybinds[i].toUpperCase();
-				buttonList[i].innerText = keybinds[i].toUpperCase();
-			}
+			keyRebinder();
 			document.removeEventListener('keydown', onListen);
 			return false;
 		}
@@ -313,28 +430,28 @@ function keyWait(k) {
 // records key presses
 document.addEventListener("keypress", function onEvent(event) {
 	if (event.key === keybinds[0]) {
-		button1.style.backgroundColor = "#7dfffb";
+		button1.style.backgroundColor = "#3285a8";
 		button1.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane1, "button1");
 		judgment(closestNote[0], closestNote[1]);
 	} else if (event.key === keybinds[1]) {
-		button2.style.backgroundColor = "#7dfffb";
+		button2.style.backgroundColor = "#3285a8";
 		button2.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane2, "button2");
 		judgment(closestNote[0], closestNote[1]);
 	} else if (event.key === keybinds[2]) {
-		button3.style.backgroundColor = "#7dfffb";
+		button3.style.backgroundColor = "#3285a8";
 		button3.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane3, "button3");
 		judgment(closestNote[0], closestNote[1]);
 	} else if (event.key === keybinds[3]) {
-		button4.style.backgroundColor = "#7dfffb";
+		button4.style.backgroundColor = "#3285a8";
 		button4.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane4, "button4");
 		judgment(closestNote[0], closestNote[1]);
-	} else if (event.key === "r") {
+	} else if (event.key === keybinds[4]) {
 		startCharting();
-	} else if (event.key === "f") {
+	} else if (event.key === keybinds[5]) {
 		gameOver();
 	}
 });
