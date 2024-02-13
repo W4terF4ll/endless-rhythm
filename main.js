@@ -312,6 +312,7 @@ function loadGame() {
 	fadeColorText.value = fadeColorValue;
 	noteColorSet();
 	fadeColorSet();
+	heldFadeColor = fadeColor;
 	if (fadeBoxChecked == "false") {
 		fadeBox.checked = false;
 		fadeColor = noteColor;
