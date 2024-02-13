@@ -1,5 +1,7 @@
 :root {
 	--scrollSpeed: 1s;
+	--noteColor: #ff2142;
+	--fadeColor: #3266a8;
 }
 .buttons {
 	font-family: "Lucida Console", "Courier New", monospace;
@@ -240,7 +242,7 @@
 	left: 0;
 	right: 0;
 	position: absolute;
-	background-color: red;
+	background-color: var(--noteColor);
 	animation-name: mover;
 	animation-timing-function: linear;
 	animation-duration:var(--scrollSpeed);
@@ -255,7 +257,7 @@
 }
 @keyframes mover {
 	0%	 {left:0px; top:0px;}
-	100% {background-color:blue; left:0px; top:600px;}
+	100% {background-color:var(--fadeColor); left:0px; top:600px;}
 }
 @keyframes bouncer {
   0% {
