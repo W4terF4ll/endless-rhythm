@@ -1,4 +1,4 @@
-# Endless Rhythm v0.81
+# Endless Rhythm v0.85
 
 A 4k Endless rhythm game that runs in the browser.
 
@@ -8,6 +8,8 @@ Made by W4terF4ll :>
 
 ## Changelog
 
+### v0.85
+Added custom stop/start keybinds, custom note colors, and a fade toggle
 ### v0.81
 Reworked difficulty scaling again.
 ### v0.8 
