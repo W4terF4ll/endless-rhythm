@@ -17,4 +17,4 @@ Added keybinds, settings can now be saved, major changes to scoring and difficul
 
 ## Plans
 
-Even more/better patterns, practice mode, long notes(?), better design, custom colors.
+Even more/better patterns, practice mode, long notes(?), better design.
