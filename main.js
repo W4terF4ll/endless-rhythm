@@ -341,6 +341,7 @@ function closeSettings() {
 // toggles fade
 function fadeClicked() {
 	if (isFade) {
+		heldFadeColor = fadeColor;
 		fadeColor = noteColor;
 		isFade = false;
 	} else {
