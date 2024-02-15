@@ -433,22 +433,22 @@ function keyWait(k) {
 // records key presses
 document.addEventListener("keypress", function onEvent(event) {
 	if (event.key === keybinds[0]) {
-		button1.style.backgroundColor = "#3285a8";
+		button1.style.backgroundColor = "#6e6e6e";
 		button1.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane1, "button1");
 		judgment(closestNote[0], closestNote[1]);
 	} else if (event.key === keybinds[1]) {
-		button2.style.backgroundColor = "#3285a8";
+		button2.style.backgroundColor = "#6e6e6e";
 		button2.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane2, "button2");
 		judgment(closestNote[0], closestNote[1]);
 	} else if (event.key === keybinds[2]) {
-		button3.style.backgroundColor = "#3285a8";
+		button3.style.backgroundColor = "#6e6e6e";
 		button3.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane3, "button3");
 		judgment(closestNote[0], closestNote[1]);
 	} else if (event.key === keybinds[3]) {
-		button4.style.backgroundColor = "#3285a8";
+		button4.style.backgroundColor = "#6e6e6e";
 		button4.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane4, "button4");
 		judgment(closestNote[0], closestNote[1]);
