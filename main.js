@@ -395,15 +395,11 @@ function defaultSettings() {
 	scrollSpeed = cssRoot.style.getPropertyValue("--scrollSpeed").slice(0, -1);
 	keybinds = ["a", "s", "k", "l", "r", "f"];
 	keyRebinder();
-	fadeBox.checked = true;
-	isFade = true;
-	fadeColor = heldFadeColor;
-	cssRoot.style.setProperty("--fadeColor", "#" + fadeColor);
-	fadeColor = cssRoot.style.getPropertyValue("--fadeColor").slice(1);
 	noteColorText.value = "#ff2142";
 	fadeColorText.value = "#3266a8";
 	noteColorSet();
 	fadeColorSet();
+	heldFadeColor = fadeColor;
 	fadeBox.checked = true;
 	isFade = false;
 	fadeClicked();
