@@ -135,6 +135,7 @@ var noteColorText;
 var fadeColorText;
 var startButtonDisplay;
 var stopButtonDisplay;
+var nextStage;
 
 // saved vars
 var speedSliderValue;
@@ -179,6 +180,7 @@ window.onload = function() {
 	fadeColorText = document.getElementById("fadeColorText");
 	startButtonDisplay = document.getElementById("startButtonDisplay");
 	stopButtonDisplay = document.getElementById("stopButtonDisplay");
+	nextStage = document.getElementById("nextStage");
 	
 	// creating list of audio
 	for (var i = 0; i < audio.length; i++) {
@@ -638,7 +640,7 @@ function noteLogic() {
 	}
 }
 
-// displays patterns, manages difficulty
+// displays patterns
 function autoCharter() {
 	if (patternProgress < patternLength) {
 		noteLogic();
@@ -670,6 +672,7 @@ function autoCharter() {
 	isCharting = setInterval(function(){autoCharter()}, noteSpacing);
 }
 
+// manages difficulty
 function difficultyLogic() {
 	spaceDifficulty += 1;
 	if (spaceDifficulty >= spaceIncrease) {
@@ -677,6 +680,10 @@ function difficultyLogic() {
 		noteSpacing = noteSpacing * 0.95;
 		increaseCount += 1;
 		if (increaseCount >= noteIncrease) {
+			nextStage.innerText = "STAGE UP!!";
+			nextStage.classList.remove("stageAnim");
+			nextStage.scrollBy(0, 0);
+			nextStage.classList.add("stageAnim");
 			increaseCount = 0;
 			totalDifficulty += 1
 			stage.innerText = totalDifficulty;
