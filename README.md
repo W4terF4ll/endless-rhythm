@@ -8,10 +8,12 @@ Made by W4terF4ll :>
 
 ## Changelog
 
+### v0.91
+Changed the note buttons default color.
 ### v0.9
-Overhauled settings UI, added stage up text
+Overhauled settings UI, added stage up text.
 ### v0.85
-Added custom stop/start keybinds, custom note colors, and a fade toggle
+Added custom stop/start keybinds, custom note colors, and a fade toggle.
 ### v0.81
 Reworked difficulty scaling again.
 ### v0.8 
