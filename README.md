@@ -1,4 +1,4 @@
-# Endless Rhythm v0.91
+# Endless Rhythm v0.92
 
 A 4k Endless rhythm game that runs in the browser.
 
