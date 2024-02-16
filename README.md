@@ -1,6 +1,6 @@
 # Endless Rhythm v0.92
 
-A 4k endless rhythm game that runs in the browser.
+A 4k endless rhythm game that runs in the browser, no downloads needed.
 
 This game is not playable on mobile and smaller/low end devices.
 
