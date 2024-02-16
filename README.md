@@ -6,8 +6,14 @@ This game is not playable on mobile and smaller/low end devices.
 
 Made by W4terF4ll :>
 
+## Plans
+
+Even more/better patterns, practice mode, long notes(?), better design, stage up and game over audio
+
 ## Changelog
 
+### v0.92
+Added a game over screen.
 ### v0.91
 Changed the note buttons default color.
 ### v0.9
@@ -18,7 +24,3 @@ Added custom stop/start keybinds, custom note colors, and a fade toggle.
 Reworked difficulty scaling again.
 ### v0.8 
 Added keybinds, settings can now be saved, major changes to scoring and difficulty scaling.
-
-## Plans
-
-Even more/better patterns, practice mode, long notes(?), better design, stage up audio, game over screen with summary
