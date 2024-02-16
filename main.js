@@ -136,6 +136,14 @@ var fadeColorText;
 var startButtonDisplay;
 var stopButtonDisplay;
 var nextStage;
+var overAcc;
+var overScore;
+var overStage;
+var gameOverAcc;
+var gameOverScore;
+var gameOverStage;
+var gameOverHolder;
+var gameOverContainer;
 
 // saved vars
 var speedSliderValue;
@@ -181,6 +189,15 @@ window.onload = function() {
 	startButtonDisplay = document.getElementById("startButtonDisplay");
 	stopButtonDisplay = document.getElementById("stopButtonDisplay");
 	nextStage = document.getElementById("nextStage");
+	overAcc = document.getElementById("overAcc");
+	overScore = document.getElementById("overScore");
+	overStage = document.getElementById("overStage");
+	gameOverAcc = document.getElementById("gameOverAcc");
+	gameOverStage = document.getElementById("gameOverStage");
+	gameOverScore = document.getElementById("gameOverScore");
+	gameOverHolder = document.getElementById("gameOverHolder");
+	gameOverContainer = document.getElementById("gameOverContainer");
+	
 	
 	// creating list of audio
 	for (var i = 0; i < audio.length; i++) {
@@ -543,6 +560,7 @@ function lifeLost() {
 		lifeList[lives-1].style.display = "none";
 		lives -= 1;
 		if (lives == 0) {
+			displayGameOver();
 			gameOver();
 		}
 	}
@@ -579,9 +597,33 @@ function gameOver() {
 	accuracy.innerText = (100).toFixed(2) + "%";
 }
 
+// displays game over screen
+function displayGameOver() {
+	gameOverContainer.style.display = "block";
+	overAcc.innerText = ((noteAccuracy / noteSeen) * 100).toFixed(2) + "%";;
+	overScore.innerText = Math.round(noteScore);
+	overStage.innerText = totalDifficulty;
+	gameOverAcc.classList.remove("overFade1");
+	gameOverAcc.scrollBy(0, 0);
+	gameOverAcc.classList.add("overFade1");
+	gameOverScore.classList.remove("overFade2");
+	gameOverScore.scrollBy(0, 0);
+	gameOverScore.classList.add("overFade2");
+	gameOverStage.classList.remove("overFade3");
+	gameOverStage.scrollBy(0, 0);
+	gameOverStage.classList.add("overFade3");
+	gameOverHolder.classList.remove("gameOverAnim");
+	gameOverHolder.scrollBy(0, 0);
+	gameOverHolder.classList.add("gameOverAnim");
+	gameOverContainer.classList.remove("gameOverOut");
+	gameOverContainer.scrollBy(0, 0);
+	gameOverContainer.classList.add("gameOverOut");
+}
+
 // starts the charter
 function startCharting() {
 	gameOver();
+	gameOverContainer.style.display = "none";
 	for (i = (spaceIncrease * noteIncrease); i <= startingDifficulty * (spaceIncrease * noteIncrease); i++) {
 		difficultyLogic()
 	}
