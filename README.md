@@ -8,7 +8,7 @@ Made by W4terF4ll :>
 
 ## Plans
 
-Even more/better patterns, long notes(?), better design, stage up and game over audio, accuracy bar, settings menu blocking inputs, offset, performance improvements, respriting heart and cog to be more pastel
+Even more/better patterns, long notes(?), better design, stage up and game over audio, settings menu blocking inputs, offset, performance improvements, respriting heart and cog to be more pastel
 
 ## Changelog
 
