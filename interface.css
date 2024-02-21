@@ -10,7 +10,7 @@
 	width: 60px;
 	font-size: 2em;
 	background-color: #d9d9d7;
-	color: #000000;
+	color: #000000000000;
 	border-radius: 50%;
 	margin: auto;
 	
@@ -95,7 +95,7 @@ input[type=text] {
 	margin-left: auto;
 	margin-right: auto;
 	left: 0;
-	right: 450px;
+	right: 440px;
 	width: 100px;
 	text-align: center;
 }
@@ -220,9 +220,68 @@ input[type=text] {
 	font-family: monospace;
 	border-color: #404040;
 	background-color: #706f6f;
-	margin-left: 10px;
-	margin-right: 10px;
+	margin-right: 20px;
 	cursor:pointer;
+}
+.accuracyContainer {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 347px;
+	right: 0;
+	width: 12px;
+	top: 110px;
+	height: 290px;
+	text-align: center;
+}
+#accuracyLine {
+	display:none;
+	z-index: 20;
+	position: absolute;
+	width: 30px;
+	left: 50%;
+    transform: translate(-50%, 0); 
+	top:0%;
+	height:2px;
+	background-color: #404040;
+}
+.accuracyBar {
+	position:absolute;
+	height: 100%;
+	width: 100%;
+	border: solid #000;
+	border-width: 2px;
+	border-color: #404040;
+}
+#barOne {
+	position: absolute;
+	background-color: #ff525a;
+	top: 0;
+	bottom: 0;
+	margin-bottom: auto;
+	margin-top: auto;
+	height: 100%;
+	width: 100%;
+}
+#barTwo {
+	position: absolute;
+	background-color: #ddf553;
+	top: 0;
+	bottom: 0;
+	margin-bottom: auto;
+	margin-top: auto;
+	height: 60%;
+	width: 100%;
+}
+#barThree {
+	position: absolute;
+	background-color: #19ff5b;
+	top: 0;
+	bottom: 0;
+	margin-bottom: auto;
+	margin-top: auto;
+	height: 30%;
+	width: 100%;
 }
 .livesContainer {
 	position: relative;
@@ -475,6 +534,21 @@ input[type=text] {
 	animation-name: mover;
 	animation-timing-function: linear;
 	animation-duration:var(--scrollSpeed);
+	animation-iteration-count: 1;
+	animation-fill-mode:forwards;
+}
+.line {
+	z-index: 21;
+	position: absolute;
+	width: 100%;
+	top: 100%;
+	left: 50%;
+    transform: translate(-50%, 0); 
+	height:2px;
+	background-color: #404040;
+	animation-name: fadeOut;
+	animation-timing-function: linear;
+	animation-duration:4s;
 	animation-iteration-count: 1;
 	animation-fill-mode:forwards;
 }
