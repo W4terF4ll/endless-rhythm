@@ -77,6 +77,7 @@ var noteScore = 0;
 var bestScore = 0;
 var noteAccuracy = 1;
 var noteSeen = 1;
+var lineCount = 1;
 
 // difficulty vars
 var lives = 9;
@@ -144,6 +145,8 @@ var gameOverScore;
 var gameOverStage;
 var gameOverHolder;
 var gameOverContainer;
+var accuracyLine;
+var accuracyDiv;
 
 // saved vars
 var speedSliderValue;
@@ -197,6 +200,8 @@ window.onload = function() {
 	gameOverScore = document.getElementById("gameOverScore");
 	gameOverHolder = document.getElementById("gameOverHolder");
 	gameOverContainer = document.getElementById("gameOverContainer");
+	accuracyLine = document.getElementById("accuracyLine");
+	accuracyDiv = document.getElementById("accuracyDiv");
 	
 	
 	// creating list of audio
@@ -450,22 +455,22 @@ document.addEventListener("keypress", function onEvent(event) {
 		button1.style.backgroundColor = "#6e6e6e";
 		button1.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane1, "button1");
-		judgment(closestNote[0], closestNote[1]);
+		judgment(closestNote[0], closestNote[1], closestNote[2]);
 	} else if (event.key === keybinds[1]) {
 		button2.style.backgroundColor = "#6e6e6e";
 		button2.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane2, "button2");
-		judgment(closestNote[0], closestNote[1]);
+		judgment(closestNote[0], closestNote[1], closestNote[2]);
 	} else if (event.key === keybinds[2]) {
 		button3.style.backgroundColor = "#6e6e6e";
 		button3.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane3, "button3");
-		judgment(closestNote[0], closestNote[1]);
+		judgment(closestNote[0], closestNote[1], closestNote[2]);
 	} else if (event.key === keybinds[3]) {
 		button4.style.backgroundColor = "#6e6e6e";
 		button4.style.color = "#ffffff";
 		var closestNote = getClosestElement(lane4, "button4");
-		judgment(closestNote[0], closestNote[1]);
+		judgment(closestNote[0], closestNote[1], closestNote[2]);
 	} else if (event.key === keybinds[4]) {
 		startCharting();
 	} else if (event.key === keybinds[5]) {
@@ -500,7 +505,7 @@ function playSound() {
   }
 
 // judges accuracy, updates combo & score
-function judgment(note, dist) {
+function judgment(note, dist, time) {
 	if (dist < (30 / scrollSpeed)) {
 		noteCombo += 1;
 		noteScore += (300 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 100));
@@ -540,6 +545,20 @@ function judgment(note, dist) {
 		judge.innerText = "MISS";
 		lifeLost();
 	}
+	if (dist > (100 / scrollSpeed)) {
+		if (time) {
+			accuracyLine.style.top = "100%";
+		} else {
+			accuracyLine.style.top = "0%";
+		}
+	} else {
+		if (time) {
+			accuracyLine.style.top = (50 + ((dist / 2)*scrollSpeed)) + "%";
+		} else {
+			accuracyLine.style.top = (50 - ((dist / 2)*scrollSpeed)) + "%";
+		}
+	}
+	spawnLine();
 	noteSeen += 1;
 	judge.classList.remove("bounce");
 	combo.classList.remove("bounce");
@@ -752,10 +771,25 @@ function spawnNote(num) {
 		combo.innerText = noteCombo;
 		divTest.remove();
 		lifeLost();
+		accuracyLine.style.top = "100%";
+		spawnLine();
 		accuracy.innerText = ((noteAccuracy / noteSeen) * 100).toFixed(2) + "%";
 	});
 	lane.appendChild(divTest);
 	noteCount += 1;
+}
+
+// spawns a line on the accuracy bar
+function spawnLine() {
+	var divLine = document.createElement("div");
+	divLine.className = "line";
+	divLine.setAttribute("id", "line" + lineCount);
+	divLine.style.top = accuracyLine.style.top;
+	divLine.addEventListener('animationend', () => {
+		divLine.remove();
+	});
+	accuracyDiv.appendChild(divLine);
+	lineCount += 1;
 }
 
 // finds the center of an element
@@ -768,10 +802,14 @@ function getPositionAtCenter(element) {
  }
  
  // calculates distance from note to button
- function getDistanceBetweenElements(a, b) {
-	 const aPosition = getPositionAtCenter(a);
-	 const bPosition = getPositionAtCenter(b);
-	 return Math.hypot(aPosition.x - bPosition.x, aPosition.y - bPosition.y);  
+function getDistanceBetweenElements(a, b) {
+	const aPosition = getPositionAtCenter(a);
+	const bPosition = getPositionAtCenter(b);
+	var notePassed = true;
+	if (aPosition.y > bPosition.y) {
+		notePassed = false;
+	}
+	return [Math.hypot(aPosition.x - bPosition.x, aPosition.y - bPosition.y), notePassed]; 
 }
 
 // gets closest note to the button
@@ -779,12 +817,14 @@ function getClosestElement(a, b) {
 	const matches = a.querySelectorAll("div.note")
 	var distance = Number.MAX_VALUE;
 	var closestNote = null;
+	var timing = false;
 	for (var i = 0; i < matches.length; i++) {
 		var noteDistance = getDistanceBetweenElements(document.getElementById(b), document.getElementById(matches[i].id));
-		if (noteDistance < distance) {
-			distance = noteDistance;
+		if (noteDistance[0] < distance) {
+			timing = noteDistance[1];
+			distance = noteDistance[0];
 			closestNote = matches[i];
 		}
 	}
-	return [closestNote, distance];
+	return [closestNote, distance, timing];
 }
