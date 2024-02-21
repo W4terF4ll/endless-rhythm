@@ -96,7 +96,7 @@
 			<div id="overlay" onclick="closeSettings()">
 			</div>
 			<div id="menuDiv">
-				<div class="settingsList" id="settingsHeader">Endless Rhythm v0.92</div>
+				<div class="settingsList" id="settingsHeader">Endless Rhythm v0.93</div>
 				<div class="settingsList">
 					<div class="settingsText">Note Speed</div>
 					<input type="range" min="50" max="200" value="100" class="slider" id="speedSlider">
@@ -128,7 +128,6 @@
 					</div>
 				</div>
 				<div class="settingsList">
-				
 					<div class="settingsText">Note Color</div>
 					<input type="text" id="noteColorText" placeholder="Hex Code, ex. #ff2142" value="#ff2142">
 					<button class="settingsButton" onclick="noteColorSet()">Set</button>
@@ -137,6 +136,12 @@
 					<div class="settingsText">Fade Color</div>
 					<input type="text" id="fadeColorText" placeholder="Hex Code, ex. #3266a8" value="#3266a8">
 					<button class="settingsButton" onclick="fadeColorSet()">Set</button>
+				</div>
+				<div class="settingsList">
+					<div class="settingsText">Accuracy Bar</div>
+					<div class="fadeBoxContainer">
+						<input type="checkbox" class="boxSwitch" id="accBox" onclick="accClicked()">
+					</div>
 				</div>
 				<div class="settingsList" id="settingsFooter">
 					<button class="settingsButton" onclick="defaultSettings()">Default</button>
