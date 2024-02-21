@@ -99,6 +99,9 @@ var heldFadeColor;
 var fadeColor;
 var noteColor;
 
+// acc bar vars
+var isBar = true;
+
 // dom vars
 var button1;
 var button2;
@@ -147,6 +150,7 @@ var gameOverHolder;
 var gameOverContainer;
 var accuracyLine;
 var accuracyDiv;
+var accBox;
 
 // saved vars
 var speedSliderValue;
@@ -156,6 +160,7 @@ var keybinds;
 var noteColorValue;
 var fadeColorValue;
 var fadeBoxChecked;
+var accBoxChecked;
 
 // sets dom vars on window load
 window.onload = function() {
@@ -202,6 +207,7 @@ window.onload = function() {
 	gameOverContainer = document.getElementById("gameOverContainer");
 	accuracyLine = document.getElementById("accuracyLine");
 	accuracyDiv = document.getElementById("accuracyDiv");
+	accBox = document.getElementById("accBox");
 	
 	
 	// creating list of audio
@@ -212,6 +218,9 @@ window.onload = function() {
 	
 	// setting default fade
 	fadeBox.checked = true;
+	
+	// setting default bar
+	accBox.checked = true;
 
 	// setting saved vars
 	speedSliderValue = speedSlider.value;
@@ -221,6 +230,7 @@ window.onload = function() {
 	noteColorValue = noteColorText.value;
 	fadeColorValue = fadeColorText.value;
 	fadeBoxChecked = fadeBox.checked;
+	accBoxChecked = accBox.checked;
 	
 	// speed slider logic
 	speedSlider = document.getElementById("speedSlider");
@@ -278,6 +288,7 @@ function saveGame() {
 	noteColorValue = noteColorText.value;
 	fadeColorValue = fadeColorText.value;
 	fadeBoxChecked = fadeBox.checked;
+	accBoxChecked = accBox.checked;
 	localStorage.setItem("speedSliderValue", speedSliderValue);
 	localStorage.setItem("audioSliderValue", audioSliderValue);
 	localStorage.setItem("stageSliderValue", stageSliderValue);
@@ -285,6 +296,7 @@ function saveGame() {
 	localStorage.setItem("noteColorValue", noteColorValue);
 	localStorage.setItem("fadeColorValue", fadeColorValue);
 	localStorage.setItem("fadeBoxChecked", fadeBoxChecked);
+	localStorage.setItem("accBoxChecked", accBoxChecked);
 }
 
 // loads game
@@ -310,8 +322,12 @@ function loadGame() {
 		fadeColorValue = "#3266a8";
 	}
 	fadeBoxChecked = localStorage.getItem("fadeBoxChecked") || true;
-	if ("undefined" === fadeColorValue) {
-		fadeColorValue = true;
+	if ("undefined" === fadeBoxChecked) {
+		fadeBoxChecked = true;
+	}
+	accBoxChecked = localStorage.getItem("accBoxChecked") || true;
+	if ("undefined" === accBoxChecked) {
+		accBoxChecked = true;
 	}
 	keybinds = JSON.parse(localStorage.getItem("keybinds")) || ["a", "s", "k", "l", "r", "f"];
 	if (keybinds.length < 6) {
@@ -346,6 +362,14 @@ function loadGame() {
 		fadeColor = heldFadeColor;
 		isFade = true;
 	}
+	if (accBoxChecked == "false") {
+		accBox.checked = false;
+		accuracyDiv.style.display = "none";
+	} else {
+		accBox.checked = true;
+		accuracyDiv.style.display = "block";
+		isBar = true;
+	}
 	cssRoot.style.setProperty("--fadeColor", "#" + fadeColor);
 	fadeColor = cssRoot.style.getPropertyValue("--fadeColor").slice(1);
 }
@@ -372,6 +396,17 @@ function fadeClicked() {
 	}
 	cssRoot.style.setProperty("--fadeColor", "#" + fadeColor);
 	fadeColor = cssRoot.style.getPropertyValue("--fadeColor").slice(1);
+}
+
+// toggles bar
+function accClicked() {
+	if (isBar) {
+		accuracyDiv.style.display = "none";
+		isBar = false;
+	} else {
+		accuracyDiv.style.display = "block";
+		isBar = true;
+	}
 }
 
 // sets note color
@@ -547,15 +582,15 @@ function judgment(note, dist, time) {
 	}
 	if (dist > (100 / scrollSpeed)) {
 		if (time) {
-			accuracyLine.style.top = "100%";
+			accuracyLine.style.left = "100%";
 		} else {
-			accuracyLine.style.top = "0%";
+			accuracyLine.style.left = "0%";
 		}
 	} else {
 		if (time) {
-			accuracyLine.style.top = (50 + ((dist / 2)*scrollSpeed)) + "%";
+			accuracyLine.style.left = (50 + ((dist / 2)*scrollSpeed)) + "%";
 		} else {
-			accuracyLine.style.top = (50 - ((dist / 2)*scrollSpeed)) + "%";
+			accuracyLine.style.left = (50 - ((dist / 2)*scrollSpeed)) + "%";
 		}
 	}
 	spawnLine();
@@ -771,7 +806,7 @@ function spawnNote(num) {
 		combo.innerText = noteCombo;
 		divTest.remove();
 		lifeLost();
-		accuracyLine.style.top = "100%";
+		accuracyLine.style.left = "100%";
 		spawnLine();
 		accuracy.innerText = ((noteAccuracy / noteSeen) * 100).toFixed(2) + "%";
 	});
@@ -784,7 +819,7 @@ function spawnLine() {
 	var divLine = document.createElement("div");
 	divLine.className = "line";
 	divLine.setAttribute("id", "line" + lineCount);
-	divLine.style.top = accuracyLine.style.top;
+	divLine.style.left = accuracyLine.style.left;
 	divLine.addEventListener('animationend', () => {
 		divLine.remove();
 	});
