@@ -13,11 +13,11 @@ Even more/better patterns, long notes(?), better design, stage up and game over 
 ## Changelog
 
 ### v0.95 3/12/24
-Caps lock no longer breaks the game, score now formats with commas, lives are now regained when staging up, accuracy has been modified slightly
+Caps lock no longer breaks the game, score now formats with commas, lives are now regained when staging up, accuracy has been modified slightly.
 ### v0.94 2/21/24
-Settings menu now blocks inputs, minor font size changes
+Settings menu now blocks inputs, minor font size changes.
 ### v0.93 2/21/24
-Added an accuracy bar, can be toggled in settings
+Added an accuracy bar, can be toggled in settings.
 ### v0.92 2/16/24
 Added a game over screen.
 ### v0.91 2/15/24
