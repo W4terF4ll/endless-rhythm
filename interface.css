@@ -95,6 +95,7 @@ input[type=text] {
 	margin-left: auto;
 	margin-right: auto;
 	left: 0;
+	height: 500px;
 	right: 440px;
 	width: 100px;
 	text-align: center;
@@ -413,12 +414,20 @@ input[type=text] {
 	font-weight: bold;
 	color: #000000;
 }
+.uiHeaderMod {
+	margin-bottom:20px;
+	margin-top:20px;
+	font-size: 25;
+	font-weight: bold;
+	color: #000000;
+}
 .uiScore {
 	margin: 2px;
 	font-size: 17px;
 	font-weight: bold;
 	color: #000000;
 }
+#
 #judge {
 	font-size: 20;
 	color: #ffffff;
