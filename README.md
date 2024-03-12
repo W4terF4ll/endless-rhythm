@@ -8,7 +8,7 @@ Made by W4terF4ll :>
 
 ## Plans
 
-Even more/better patterns, long notes(?), better design, stage up and game over audio, offset, performance improvements, accuracy scoring improvements, better ui positioning
+Even more/better patterns, long notes(?), better design, stage up and game over audio, offset, performance improvements, accuracy scoring improvements, change misses when no notes
 
 ## Changelog
 
