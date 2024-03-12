@@ -472,16 +472,16 @@ function defaultSettings() {
 function keyWait(k) {
 	document.addEventListener('keydown', function onListen(e) {
 		e = e || window.event;
-		if (keybinds.includes(e.key)) {
+		if (keybinds.includes(e.key.toLowerCase())) {
 			var holder = keybinds[k]
-			var holderLocation = keybinds.indexOf(e.key)
+			var holderLocation = keybinds.indexOf(e.key.toLowerCase())
 			keybinds[holderLocation] = holder;
-			keybinds[k] = e.key;
+			keybinds[k] = e.key.toLowerCase();
 			keyRebinder();
 			document.removeEventListener('keydown', onListen);
 			return false;
 		} else {
-			keybinds[k] = e.key;
+			keybinds[k] = e.key.toLowerCase();
 			keyRebinder();
 			document.removeEventListener('keydown', onListen);
 			return false;
@@ -492,29 +492,29 @@ function keyWait(k) {
 // records key presses
 document.addEventListener("keypress", function onEvent(event) {
 	if (!isSettings) {
-		if (event.key === keybinds[0]) {
+		if (event.key.toLowerCase() === keybinds[0]) {
 			button1.style.backgroundColor = "#6e6e6e";
 			button1.style.color = "#ffffff";
 			var closestNote = getClosestElement(lane1, "button1");
 			judgment(closestNote[0], closestNote[1], closestNote[2]);
-		} else if (event.key === keybinds[1]) {
+		} else if (event.key.toLowerCase() === keybinds[1]) {
 			button2.style.backgroundColor = "#6e6e6e";
 			button2.style.color = "#ffffff";
 			var closestNote = getClosestElement(lane2, "button2");
 			judgment(closestNote[0], closestNote[1], closestNote[2]);
-		} else if (event.key === keybinds[2]) {
+		} else if (event.key.toLowerCase() === keybinds[2]) {
 			button3.style.backgroundColor = "#6e6e6e";
 			button3.style.color = "#ffffff";
 			var closestNote = getClosestElement(lane3, "button3");
 			judgment(closestNote[0], closestNote[1], closestNote[2]);
-		} else if (event.key === keybinds[3]) {
+		} else if (event.key.toLowerCase() === keybinds[3]) {
 			button4.style.backgroundColor = "#6e6e6e";
 			button4.style.color = "#ffffff";
 			var closestNote = getClosestElement(lane4, "button4");
 			judgment(closestNote[0], closestNote[1], closestNote[2]);
-		} else if (event.key === keybinds[4]) {
+		} else if (event.key.toLowerCase() === keybinds[4]) {
 			startCharting();
-		} else if (event.key === keybinds[5]) {
+		} else if (event.key.toLowerCase() === keybinds[5]) {
 			gameOver();
 		}
 	}
@@ -522,16 +522,16 @@ document.addEventListener("keypress", function onEvent(event) {
 
 // records key releases
 document.addEventListener("keyup", function onEvent(event) {
-	if (event.key === keybinds[0]) {
+	if (event.key.toLowerCase() === keybinds[0]) {
 		button1.style.backgroundColor = "#d9d9d7";
 		button1.style.color = "#000000";
-	} else if (event.key === keybinds[1]) {
+	} else if (event.key.toLowerCase() === keybinds[1]) {
 		button2.style.backgroundColor = "#d9d9d7";
 		button2.style.color = "#000000";
-	} else if (event.key === keybinds[2]) {
+	} else if (event.key.toLowerCase() === keybinds[2]) {
 		button3.style.backgroundColor = "#d9d9d7";
 		button3.style.color = "#000000";
-	} else if (event.key === keybinds[3]) {
+	} else if (event.key.toLowerCase() === keybinds[3]) {
 		button4.style.backgroundColor = "#d9d9d7";
 		button4.style.color = "#000000";
 	}
@@ -539,18 +539,23 @@ document.addEventListener("keyup", function onEvent(event) {
 
 // plays hit sound
 function playSound() {
-    audio[audioIndex].play();
-    audioIndex++;
-    if(audioIndex > audio.length - 1) {
-      audioIndex = 0;
-    }
-  }
+	audio[audioIndex].play();
+	audioIndex++;
+	if(audioIndex > audio.length - 1) {
+		audioIndex = 0;
+	}
+}
+
+function accuracyGradient() {
+	var roundedAccuracy = ((noteAccuracy / noteSeen) * 100).toFixed(2);
+	accuracy.style.color = ["hsl(", roundedAccuracy, ",100%,75%)"].join("");
+}
 
 // judges accuracy, updates combo & score
 function judgment(note, dist, time) {
 	if (dist < (30 / scrollSpeed)) {
 		noteCombo += 1;
-		noteScore += (300 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 100));
+		noteScore += (300 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 1000));
 		noteAccuracy += 1;
 		judge.style.color = "#ffff33";
 		judge.innerText = "PERFECT!!";
@@ -558,24 +563,24 @@ function judgment(note, dist, time) {
 		note.remove();
 	} else if (dist < (45 / scrollSpeed)) {
 		noteCombo += 1;
-		noteScore += (200 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 100));
-		noteAccuracy += 0.75;
+		noteScore += (200 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 1000));
+		noteAccuracy += 0.66;
 		judge.style.color = "#70dbdb";
 		judge.innerText = "Great!";
 		playSound();
 		note.remove();
 	} else if (dist < (60 / scrollSpeed)) {
 		noteCombo += 1;
-		noteScore += (100 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 100));
-		noteAccuracy += 0.5;
+		noteScore += (100 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 1000));
+		noteAccuracy += 0.33;
 		judge.style.color = "#1aff1a";
 		judge.innerText = "Good";
 		playSound();
 		note.remove();
 	} else if (dist < (100 / scrollSpeed)) {
 		noteCombo += 1;
-		noteScore += (50 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 100));
-		noteAccuracy += 0.25;
+		noteScore += (50 * (1000 / noteSpacing) * noteDifficulty) * (1 + (noteCombo / 1000));
+		noteAccuracy += 0.16;
 		judge.style.color = "#ff3385";
 		judge.innerText = "Bad...";
 		playSound();
@@ -609,7 +614,7 @@ function judgment(note, dist, time) {
 	judge.classList.add("bounce");
 	combo.classList.add("bounce");
 	combo.innerText = noteCombo;
-	score.innerText = Math.round(noteScore);
+	score.innerText = noteScore.toLocaleString("en", {minimumFractionDigits: 0, maximumFractionDigits: 0,});
 	if (isRunning) {
 		accuracy.innerText = ((noteAccuracy / noteSeen) * 100).toFixed(2) + "%";
 	}
@@ -627,6 +632,14 @@ function lifeLost() {
 	}
 }
 
+// regains lives
+function lifeGained() {
+	if (isRunning && lives < 9) {
+		lifeList[lives].style.display = "block";
+		lives += 1;
+	}
+}
+
 // resets game
 function gameOver() {
 	isRunning = false;
@@ -640,8 +653,8 @@ function gameOver() {
 		bestScore = noteScore;
 	}
 	noteScore = 0;
-	score.innerText = Math.round(noteScore);
-	highScore.innerText = Math.round(bestScore);
+	score.innerText = noteScore.toLocaleString("en", {minimumFractionDigits: 0, maximumFractionDigits: 0,});
+	highScore.innerText = bestScore.toLocaleString("en", {minimumFractionDigits: 0, maximumFractionDigits: 0,});
 	for (var i = 0; i < lifeList.length; i++) {
 		lifeList[i].style.display = "block";
 	}
@@ -662,7 +675,7 @@ function gameOver() {
 function displayGameOver() {
 	gameOverContainer.style.display = "block";
 	overAcc.innerText = ((noteAccuracy / noteSeen) * 100).toFixed(2) + "%";;
-	overScore.innerText = Math.round(noteScore);
+	overScore.innerText = noteScore.toLocaleString("en", {minimumFractionDigits: 0, maximumFractionDigits: 0,});
 	overStage.innerText = totalDifficulty;
 	gameOverAcc.classList.remove("overFade1");
 	gameOverAcc.scrollBy(0, 0);
@@ -781,6 +794,7 @@ function difficultyLogic() {
 		increaseCount += 1;
 		if (increaseCount >= noteIncrease) {
 			nextStage.innerText = "STAGE UP!!";
+			lifeGained();
 			nextStage.classList.remove("stageAnim");
 			nextStage.scrollBy(0, 0);
 			nextStage.classList.add("stageAnim");
