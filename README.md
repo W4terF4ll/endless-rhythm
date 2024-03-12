@@ -1,4 +1,4 @@
-# Endless Rhythm v0.94
+# Endless Rhythm v0.95
 
 A 4k endless rhythm game that runs in the browser, no downloads needed.
 
@@ -12,6 +12,8 @@ Even more/better patterns, long notes(?), better design, stage up and game over 
 
 ## Changelog
 
+### v0.95
+Caps lock no longer breaks the game, score now formats with commas, lives are now regained when staging up, accuracy has been modified slightly
 ### v0.94
 Settings menu now blocks inputs, minor font size changes
 ### v0.93
