@@ -114,7 +114,7 @@ let patternList = [
 
 // quotes var
 var gameOverQuotes = ["skill issue", "pro tip: don't miss", "what a run!", "nice try..", ";v;", "almost.. almost..", "getting better!", "stand proud, you're strong", "practice makes perfect!", "WHOA."
-, "faster! FASTER!!", "they didn't believe in us..", "all warmed up now?", "S++++"]
+, "faster! FASTER!!", "they didn't believe in us..", "all warmed up now?", "S++++", "error: skill not found"]
 
 // running vars
 var isCharting;
@@ -281,11 +281,11 @@ window.onload = function() {
 	
 	// creating list of audio
 	for (var i = 0; i < audio.length; i++) {
-		audio[i] = new Audio("../res/hit.wav");
+		audio[i] = new Audio("./res/hit.wav");
 	}
-	audioMiss = new Audio("../res/miss.wav");
-	audioStageUp = new Audio("../res/stageup.wav");
-	audioGameOver = new Audio("../res/gameover.wav");
+	audioMiss = new Audio("./res/miss.wav");
+	audioStageUp = new Audio("./res/stageup.wav");
+	audioGameOver = new Audio("./res/gameover.wav");
 	
 	
 	// setting default fade
