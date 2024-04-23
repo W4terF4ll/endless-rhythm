@@ -1,20 +1,101 @@
+/* JS Variables */
 :root {
 	--scrollSpeed: 1s;
 	--noteColor: #ff2142;
 	--fadeColor: #3266a8;
 }
 
-.buttons {
-	font-family: "Lucida Console", "Courier New", monospace;
-	height: 60px;
-	width: 60px;
-	font-size: 2em;
-	background-color: #d9d9d7;
-	color: #000000000000;
-	border-radius: 50%;
-	margin: auto;
-	
+/* Settings */
+#overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.7);
+	z-index: 100;
+	cursor: pointer;
 }
+#settingsHeader {
+	font-size:32px;
+	font-weight:bold;
+	justify-content: center;
+	animation-name: shift;
+	animation-timing-function: ease;
+	animation-duration: 5s;
+	animation-iteration-count: infinite;
+	animation-fill-mode:forwards;
+	margin-left: 0px;
+}
+#settingsFooter {
+	justify-content: center;
+}
+.settingsList {
+	position: relative;
+	top: 8%;
+	left: 50%;
+	font-size: 25;
+	color: white;
+	transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	align-items: center;
+	display: flex;
+	margin-left: 3%;
+	margin-right:auto;
+	height: 50px;
+}
+#menuDiv {
+	position: fixed;
+	width: 500px;
+	height: 530px;
+	margin-left: auto;
+	margin-right: auto;
+	top: 50px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #858585;
+	border: solid #000;
+	border-width: 5px;
+	border-color: #666565;
+	border-radius: 3%;
+	box-shadow: 0 0 0 5px hsl(0, 0%, 20%);
+	z-index: 101;
+}
+.settingsText {
+	text-align: center;
+	width: 40%;
+}
+.settingsSide {
+	text-align: center;
+	width: 20%;
+}
+.settingsDiv {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 350px;
+	right: 0;
+	width: 25px;
+	height: 50px;
+	bottom: 0;
+	top: 70px;
+}
+#menuContainer {
+	display: none;
+}
+.settingsButton {
+	color: #ffffff;
+	font-family: monospace;
+	border-color: #404040;
+	background-color: #706f6f;
+	margin-right: 20px;
+	cursor:pointer;
+}
+
+/* Settings Switch */
 .fadeBoxContainer .boxSwitch {
     appearance: none;
     background-color: #9e9d9d;
@@ -68,7 +149,40 @@
  .fadeBoxContainer .boxSwitch:checked:hover {
     background-color: #696969; /*lole*/
  }
+ 
+ /* Settings Slider */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 33%;
+  height: 8px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+.slider:hover {
+  opacity: 1;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #636363;
+  cursor: pointer;
+  border-radius: 40%;
+}
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #636363;
+  cursor: pointer;
+  border-radius: 40%;
+}
 
+/* Settings Input Field */
 input[type=text] {
 	border: solid #000;
 	border-width: 2;
@@ -76,6 +190,18 @@ input[type=text] {
 	border-radius: 2%;
 	background-color: #807e7e;
 	color: #ffffff;
+}
+
+/* ASKL Buttons */
+.buttons {
+	font-family: "Lucida Console", "Courier New", monospace;
+	height: 60px;
+	width: 60px;
+	font-size: 2em;
+	background-color: #d9d9d7;
+	color: #000000000000;
+	border-radius: 50%;
+	margin: auto;
 }
 .buttonDiv {
 	z-index: 2;
@@ -90,6 +216,8 @@ input[type=text] {
 	border-color: #404040;
 	background-color: #706f6f;
 }
+
+/* Left Side of Screen */
 .uiDiv {
 	position: absolute;
 	margin-left: auto;
@@ -100,130 +228,30 @@ input[type=text] {
 	width: 100px;
 	text-align: center;
 }
-#overlay {
-	position: fixed;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: rgba(0,0,0,0.7);
-	z-index: 100;
-	cursor: pointer;
-}
-#menuDiv {
-	position: fixed;
-	width: 500px;
-	height: 530px;
-	margin-left: auto;
-	margin-right: auto;
-	top: 50px;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background-color: #858585;
-	border: solid #000;
-	border-width: 5px;
-	border-color: #666565;
-	border-radius: 3%;
-	box-shadow: 0 0 0 5px hsl(0, 0%, 20%);
-	z-index: 101;
-}
-#settingsHeader {
-	font-size:32px;
-	font-weight:bold;
-	justify-content: center;
-	animation-name: shift;
-	animation-timing-function: ease;
-	animation-duration: 5s;
-	animation-iteration-count: infinite;
-	animation-fill-mode:forwards;
-	margin-left: 0px;
-}
-#settingsFooter {
-	justify-content: center;
-}
-.settingsList {
-	position: relative;
-	top: 8%;
-	left: 50%;
-	font-size: 25;
-	color: white;
-	transform: translate(-50%,-50%);
-	-ms-transform: translate(-50%,-50%);
-	align-items: center;
-	display: flex;
-	margin-left: 3%;
-	margin-right:auto;
-	height: 50px;
-}
-/* The slider itself */
-.slider {
-  -webkit-appearance: none;  /* Override default CSS styles */
-  appearance: none;
-  width: 33%; /* Full-width */
-  height: 8px; /* Specified height */
-  background: #d3d3d3; /* Grey background */
-  outline: none; /* Remove outline */
-  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
-  transition: opacity .2s;
-}
-
-/* Mouse-over effects */
-.slider:hover {
-  opacity: 1; /* Fully shown on mouse-over */
-}
-
-/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
-.slider::-webkit-slider-thumb {
-  -webkit-appearance: none; /* Override default look */
-  appearance: none;
-  width: 20px; /* Set a specific slider handle width */
-  height: 20px; /* Slider handle height */
-  background: #636363; /* Green background */
-  cursor: pointer; /* Cursor on hover */
-  border-radius: 40%;
-}
-
-.slider::-moz-range-thumb {
-  width: 20px; /* Set a specific slider handle width */
-  height: 20px; /* Slider handle height */
-  background: #636363; /* Green background */
-  cursor: pointer; /* Cursor on hover */
-  border-radius: 40%;
-}
-.settingsText {
-	text-align: center;
-	width: 40%;
-}
-.settingsSide {
-	text-align: center;
-	width: 20%;
-}
-.settingsDiv {
-	position: absolute;
-	margin-left: auto;
-	margin-right: auto;
-	left: 350px;
-	right: 0;
-	width: 25px;
-	height: 50px;
-	bottom: 0;
-	top: 70px;
-}
-#menuContainer {
-	display: none;
-}
-.settingsButton {
+.uiButtons {
+	width: 100px;
+	margin: 2px;
 	color: #ffffff;
 	font-family: monospace;
 	border-color: #404040;
 	background-color: #706f6f;
-	margin-right: 20px;
 	cursor:pointer;
 }
+.uiHeader {
+	margin-bottom:20px;
+	margin-top:20px;
+	font-size: 25;
+	font-weight: bold;
+	color: #000000;
+}
+.uiScore {
+	margin: 2px;
+	font-size: 17px;
+	font-weight: bold;
+	color: #000000;
+}
+
+/* Accuracy Bar */
 .accuracyContainer {
 	z-index: 85;
 	position: absolute;
@@ -289,6 +317,23 @@ input[type=text] {
 	height: 100%;
 	width: 30%;
 }
+.line {
+	z-index: 86;
+	position: absolute;
+	width: 1px;
+	top: 50%;
+	left: 0%;
+	transform: translateY(-50%);
+	height:20px;
+	background-color: #404040;
+	animation-name: fadeOut;
+	animation-timing-function: linear;
+	animation-duration:1s;
+	animation-iteration-count: 1;
+	animation-fill-mode:forwards;
+}
+
+/* Lives */
 .livesContainer {
 	position: relative;
 	margin-left: auto;
@@ -311,15 +356,8 @@ input[type=text] {
 	color: #000000;
 	font-family: monospace;
 }
-.uiButtons {
-	width: 100px;
-	margin: 2px;
-	color: #ffffff;
-	font-family: monospace;
-	border-color: #404040;
-	background-color: #706f6f;
-	cursor:pointer;
-}
+
+/* Chart */
 .chartDisplayDiv {
 	z-index: 1;
 	margin-left: auto;
@@ -379,6 +417,27 @@ input[type=text] {
 	height: 100%;
 	width: 25%;
 }
+
+/* Notes */
+.note {
+	z-index: 15;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	position: absolute;
+	background-color: var(--noteColor);
+	animation-name: mover;
+	animation-timing-function: linear;
+	animation-duration:var(--scrollSpeed);
+	animation-iteration-count: 1;
+	animation-fill-mode:forwards;
+}
+
+/* Center Display */
 .judgeDiv {
 	position: absolute;
 	z-index: 80;
@@ -392,6 +451,20 @@ input[type=text] {
 	text-align: center;
 	align-items: center;
 	justify-content: center;
+}
+#judge {
+	font-size: 20;
+	color: #ffffff;
+}
+#combo {
+	font-size: 35;
+	color: #ffffff;
+}
+#nextStage {
+	font-size: 25;
+	font-weight: bold;
+	color: #ffffff;
+	text-shadow: 0 0 1px #ffffff, 0 0 3px #ffffff;
 }
 .stageUpContainer {
 	position: absolute;
@@ -407,41 +480,6 @@ input[type=text] {
 	align-items: center;
 	justify-content: center;
 }
-.uiHeader {
-	margin-bottom:20px;
-	margin-top:20px;
-	font-size: 25;
-	font-weight: bold;
-	color: #000000;
-}
-.uiHeaderMod {
-	margin-bottom:20px;
-	margin-top:20px;
-	font-size: 25;
-	font-weight: bold;
-	color: #000000;
-}
-.uiScore {
-	margin: 2px;
-	font-size: 17px;
-	font-weight: bold;
-	color: #000000;
-}
-#
-#judge {
-	font-size: 20;
-	color: #ffffff;
-}
-#combo {
-	font-size: 35;
-	color: #ffffff;
-}
-#nextStage {
-	font-size: 25;
-	font-weight: bold;
-	color: #ffffff;
-	text-shadow: 0 0 1px #ffffff, 0 0 3px #ffffff;
-}
 .stageAnim {
 	animation-delay: 0s, 0s, .3s, .8s, .8s;
 	animation-name: shift, spin, bouncer, bouncer, fadeOut;
@@ -450,6 +488,8 @@ input[type=text] {
 	animation-timing-function: linear;
 	animation-fill-mode:forwards;
 }
+
+/* Gameover Display */
 #gameOverContainer {
 	display:none;
 	position: absolute;
@@ -501,18 +541,6 @@ input[type=text] {
 	color: #ffffff;
 	text-shadow: 0 0 3px #ffffff, 0 0 5px #ffffff;
 }
-#keySetting5 {
-	color: #34d8eb;
-}
-#startButtonDisplay {
-	color: #34d8eb;
-}
-#keySetting6 {
-	color: #ed687c;
-}
-#stopButtonDisplay {
-	color: #ed687c;
-}
 .overFade1 {
 	animation-name: fadeIn;
 	animation-duration: 3s;
@@ -554,38 +582,22 @@ input[type=text] {
 	animation-iteration-count: 1;
 	animation-fill-mode:forwards;
 }
-.note {
-	z-index: 15;
-	border-radius: 50%;
-	width: 60px;
-	height: 60px;
-	margin-left: auto;
-	margin-right: auto;
-	left: 0;
-	right: 0;
-	position: absolute;
-	background-color: var(--noteColor);
-	animation-name: mover;
-	animation-timing-function: linear;
-	animation-duration:var(--scrollSpeed);
-	animation-iteration-count: 1;
-	animation-fill-mode:forwards;
+
+/* Extra Coloring */
+#keySetting5 {
+	color: #34d8eb;
 }
-.line {
-	z-index: 86;
-	position: absolute;
-	width: 1px;
-	top: 50%;
-	left: 0%;
-	transform: translateY(-50%);
-	height:20px;
-	background-color: #404040;
-	animation-name: fadeOut;
-	animation-timing-function: linear;
-	animation-duration:1s;
-	animation-iteration-count: 1;
-	animation-fill-mode:forwards;
+#startButtonDisplay {
+	color: #34d8eb;
 }
+#keySetting6 {
+	color: #ed687c;
+}
+#stopButtonDisplay {
+	color: #ed687c;
+}
+
+/* Animations */
 .bounce {
 	animation: bouncer 0.1s, fadeOut 3s;
 	animation-timing-function: linear;
