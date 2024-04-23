@@ -8,4 +8,4 @@ Made by W4terF4ll :3
 
 ## Plans
 
-Long notes(?), stage up and game over audio, offset, change misses when no notes
+Long notes(?), offset, change misses when no notes
