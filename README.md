@@ -8,4 +8,4 @@ Made by W4terF4ll :3
 
 ## Plans
 
-Long notes(?), offset, change misses when no notes
+Practice mode, more customization, more settings
