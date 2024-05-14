@@ -1,7 +1,7 @@
 ## Changelog
 
 ### v1.10 5/14/24
-Added practice mode, (hopefully) fixed some saving bugs.
+Added practice mode, (hopefully) fixed some saving bugs, added changelog button (hi!!).
 
 ### v1.00 4/22/24
 MAJOR overhaul to patterns (now divided into jump and stream sections), difficulty scaling rework, slight optimization improvements, new audio, game over quotes, minor tweaks and bug fixes.
