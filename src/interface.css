@@ -5,6 +5,51 @@
 	--fadeColor: #3266a8;
 }
 
+/* Practice */
+#practiceContainer {
+	display: none;
+}
+#practiceMenuDiv {
+	position: fixed;
+	width: 500px;
+	height: 420px;
+	margin-left: auto;
+	margin-right: auto;
+	top: 50px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #858585;
+	border: solid #000;
+	border-width: 5px;
+	border-color: #666565;
+	border-radius: 3%;
+	box-shadow: 0 0 0 5px hsl(0, 0%, 20%);
+	z-index: 101;
+}
+.practiceInfoList {
+	position: relative;
+	text-align: center;
+	top: 8%;
+	left: 50%;
+	width: 90%;
+	color: white;
+	transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+	align-items: center;
+	display: flex;
+	margin-right:auto;
+	height: 50px;
+}
+.practiceInfoText {
+	font-size: 10;
+}
+#practiceText {
+	color: white;
+	font-size: 25;
+	text-shadow: 0 0 1px #000000, 0 0 3px #000000;
+}
+
 /* Settings */
 #overlay {
 	position: fixed;
@@ -30,6 +75,7 @@
 	margin-left: 0px;
 }
 #settingsFooter {
+	height: 30px;
 	justify-content: center;
 }
 .settingsList {
@@ -93,6 +139,14 @@
 	background-color: #706f6f;
 	margin-right: 20px;
 	cursor:pointer;
+}
+.settingsButton:disabled {
+	color: #b0b0b0;
+	font-family: monospace;
+	border-color: #292929;
+	background-color: #404040;
+	margin-right: 20px;
+	cursor:default;
 }
 
 /* Settings Switch */
@@ -162,7 +216,7 @@
   -webkit-transition: .2s;
   transition: opacity .2s;
 }
-.slider:hover {
+.slider:hover:enabled {
   opacity: 1;
 }
 .slider::-webkit-slider-thumb {
@@ -181,15 +235,26 @@
   cursor: pointer;
   border-radius: 40%;
 }
+.slider:disabled {
+	background: #999999;
+}
 
 /* Settings Input Field */
 input[type=text] {
+	color: #ffffff;
 	border: solid #000;
 	border-width: 2;
 	border-color: #636363;
 	border-radius: 2%;
 	background-color: #807e7e;
-	color: #ffffff;
+}
+input[type=text]:disabled {
+	color: #b0b0b0;
+	border: solid #000;
+	border-width: 2;
+	border-color: #4f4f4f;
+	border-radius: 2%;
+	background-color: #636363;
 }
 
 /* ASKL Buttons */
@@ -249,6 +314,9 @@ input[type=text] {
 	font-size: 17px;
 	font-weight: bold;
 	color: #000000;
+}
+#practiceButton {
+	margin-top: 10px;
 }
 
 /* Accuracy Bar */
