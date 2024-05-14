@@ -885,11 +885,11 @@ function judgment(note, dist, time) {
 // subtracts lives
 function lifeLost() {
 	if (isRunning) {
-		//lifeList[lives-1].style.display = "none";
-		//lives -= 1;
-		//if (lives == 0) {
-		//	gameOver();
-		//}
+		lifeList[lives-1].style.display = "none";
+		lives -= 1;
+		if (lives == 0) {
+			gameOver();
+		}
 	}
 }
 
