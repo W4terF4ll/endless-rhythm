@@ -1,5 +1,6 @@
-// change hitsound, add new patterns, 
-// change 'miss' judgement :>
+// add a way to disable life loss in practice? (maybe no)
+// allow for multiple custom patterns at once >:3
+// add changelog and credit for urself! :D
 
 // https://i.imgur.com/W4vfn3e.png
 // [1 = first lane, 2 = second lane... 5 = double note, 6 = triple note, 7 = quad note]
@@ -164,8 +165,9 @@ var noteColor;
 // acc bar var
 var isBar = true;
 
-// settings var
+// menu vars
 var isSettings = false;
+var isPractice = false;
 
 // dom vars
 var button1;
@@ -220,6 +222,22 @@ var accuracyLine;
 var accuracyDiv;
 var accBox;
 
+// practice vars
+var practiceText;
+var practiceDifficulty = 1;
+var practiceSpacing = 200;
+var practiceScaling;
+var isScale = true;
+var practicePatterns;
+var isPattern = true;
+var practiceDisabledText;
+var practiceDisabledInput;
+var customPattern = [1, 2, 3, 4];
+var practiceRunning = false;
+var spaceBox
+var difficultySliderText;
+var difficultySlider;
+
 // saved vars
 var speedSliderValue;
 var audioSliderValue;
@@ -229,6 +247,12 @@ var noteColorValue;
 var fadeColorValue;
 var fadeBoxChecked;
 var accBoxChecked;
+
+var difficultySliderValue;
+var noteSpacingValue;
+var spaceBoxChecked;
+var patternBoxChecked;
+var patternInputValue;
 
 // sets dom vars on window load
 window.onload = function() {
@@ -264,6 +288,12 @@ window.onload = function() {
 	fadeColorText = document.getElementById("fadeColorText");
 	startButtonDisplay = document.getElementById("startButtonDisplay");
 	stopButtonDisplay = document.getElementById("stopButtonDisplay");
+	noteSpacingText = document.getElementById("noteSpacingText");
+	practiceText = document.getElementById("practiceText");
+	spaceBox = document.getElementById("spaceBox");
+	practiceDisabledText = document.getElementById("practiceDisabledText");
+	patternInputText = document.getElementById("patternInputText");
+	difficultySlider = document.getElementById("difficultySlider");
 	nextStage = document.getElementById("nextStage");
 	overQuote = document.getElementById("overQuote");
 	overAcc = document.getElementById("overAcc");
@@ -293,6 +323,12 @@ window.onload = function() {
 	
 	// setting default bar
 	accBox.checked = true;
+	
+	// setting default scaling
+	spaceBox.checked = true;
+	
+	// setting default pattern
+	patternBox.checked = false;
 
 	// setting saved vars
 	speedSliderValue = speedSlider.value;
@@ -303,6 +339,8 @@ window.onload = function() {
 	fadeColorValue = fadeColorText.value;
 	fadeBoxChecked = fadeBox.checked;
 	accBoxChecked = accBox.checked;
+	spaceBoxChecked = spaceBox.checked;
+	patternBoxChecked = patternBox.checked;
 	
 	// speed slider logic
 	speedSlider = document.getElementById("speedSlider");
@@ -350,6 +388,15 @@ window.onload = function() {
 	fadeColor = cssRoot.style.getPropertyValue("--fadeColor").slice(1);
 	heldFadeColor = fadeColor;
 	
+	// difficulty slider logic
+	difficultySlider = document.getElementById("difficultySlider");
+	difficultySliderText = document.getElementById("difficultyText");
+	difficultySlider.addEventListener('input', function(event) {
+		var sliderValue = event.target.value;
+		difficultySliderText.innerText = sliderValue;
+		practiceDifficulty = sliderValue;
+	});
+	
 	// loads settings if save exists
 	loadGame();
 }
@@ -363,6 +410,15 @@ function saveGame() {
 	fadeColorValue = fadeColorText.value;
 	fadeBoxChecked = fadeBox.checked;
 	accBoxChecked = accBox.checked;
+	difficultySliderValue = difficultySlider.value;
+	noteSpacingValue = noteSpacingText.value;
+	console.log(spaceBox.checked);
+	spaceBoxChecked = spaceBox.checked;
+	console.log(spaceBoxChecked);
+	console.log(patternBox.checked);
+	patternBoxChecked = patternBox.checked;
+	console.log(patternBoxChecked);
+	patternInputValue = patternInputText.value;
 	localStorage.setItem("speedSliderValue", speedSliderValue);
 	localStorage.setItem("audioSliderValue", audioSliderValue);
 	localStorage.setItem("stageSliderValue", stageSliderValue);
@@ -371,6 +427,11 @@ function saveGame() {
 	localStorage.setItem("fadeColorValue", fadeColorValue);
 	localStorage.setItem("fadeBoxChecked", fadeBoxChecked);
 	localStorage.setItem("accBoxChecked", accBoxChecked);
+	localStorage.setItem("difficultySliderValue", difficultySliderValue);
+	localStorage.setItem("noteSpacingValue", noteSpacingValue);
+	localStorage.setItem("spaceBoxChecked", spaceBoxChecked);
+	localStorage.setItem("patternBoxChecked", patternBoxChecked);
+	localStorage.setItem("patternInputValue", patternInputValue);
 }
 
 // loads game
@@ -407,6 +468,26 @@ function loadGame() {
 	if (keybinds.length < 6) {
 		keybinds = ["a", "s", "k", "l", "r", "f"];
 	}
+	difficultySliderValue = localStorage.getItem("difficultySliderValue") || 1;
+	if ("undefined" === difficultySliderValue) {
+		difficultySliderValue = 1
+	}
+	noteSpacingValue = localStorage.getItem("noteSpacingValue") || "200";
+	if ("undefined" === noteSpacingValue) {
+		noteSpacingValue = 200
+	}
+	spaceBoxChecked = localStorage.getItem("spaceBoxChecked") || true;
+	if ("undefined" === spaceBoxChecked) {
+		spaceBoxChecked = true;
+	}
+	patternBoxChecked = localStorage.getItem("patternBoxChecked") || false;
+	if ("undefined" === patternBoxChecked) {
+		patternBoxChecked = false;
+	}
+	patternInputValue = localStorage.getItem("patternInputValue") || "1 2 3 4";
+	if ("undefined" === patternInputValue) {
+		patternInputValue = "1 2 3 4";
+	}
 	speedSlider.value = speedSliderValue;
 	speedSliderText.innerText = speedSliderValue;
 	cssRoot.style.setProperty("--scrollSpeed", speedSliderValue / 100 + "s");
@@ -429,7 +510,7 @@ function loadGame() {
 	noteColorSet();
 	fadeColorSet();
 	heldFadeColor = fadeColor;
-	if (fadeBoxChecked == "false") {
+	if (fadeBoxChecked.toString() == "false") {
 		fadeBox.checked = false;
 		fadeColor = noteColor;
 		isFade = false;
@@ -438,13 +519,40 @@ function loadGame() {
 		fadeColor = heldFadeColor;
 		isFade = true;
 	}
-	if (accBoxChecked == "false") {
+	if (accBoxChecked.toString() == "false") {
 		accBox.checked = false;
 		accuracyDiv.style.display = "none";
+		isBar = false;
 	} else {
 		accBox.checked = true;
 		accuracyDiv.style.display = "block";
 		isBar = true;
+	}
+	difficultySlider.value = difficultySliderValue;
+	difficultySliderText.innerText = difficultySliderValue;
+	practiceDifficulty = difficultySliderValue;
+	noteSpacingText.value = noteSpacingValue;
+	noteSpacingSet();
+	patternInputText.value = patternInputValue;
+	practicePatternSet();
+	//i dont think this works please test/fix
+	if (spaceBoxChecked.toString() == "false") {
+		spaceBox.checked = false;
+		isScale = true;
+		scaleClicked();
+	} else {
+		spaceBox.checked = true;
+		isPattern = false;
+		scaleClicked();
+	}
+	if (patternBoxChecked.toString() == "false") {
+		patternBox.checked = false;
+		isPattern = true;
+		patternClicked();
+	} else {
+		patternBox.checked = true;
+		isPattern = false;
+		patternClicked();
 	}
 	cssRoot.style.setProperty("--fadeColor", "#" + fadeColor);
 	fadeColor = cssRoot.style.getPropertyValue("--fadeColor").slice(1);
@@ -460,6 +568,51 @@ function openSettings() {
 function closeSettings() {
 	menuContainer.style.display = "none";
 	isSettings = false;
+}
+
+// opens practice menu
+function openPractice() {
+	if (isRunning && practiceRunning) {
+		gameOver();
+	}
+	practiceContainer.style.display = "block";
+	isPractice = true;
+}
+
+// closes practice menu
+function closePractice() {
+	practiceContainer.style.display = "none";
+	isPractice = false;
+}
+
+// toggles space scaling in practice
+function scaleClicked() {
+	if (isScale) {
+		practiceScaling = false;
+		isScale = false;
+	} else {
+		practiceScaling = true;
+		isScale = true;
+	}
+}
+
+// toggles custom patterns in practice
+function patternClicked() {
+	if (isPattern) {
+		practicePatterns = false;
+		difficultySliderText.style.color = "#ffffff";
+		difficultySlider.disabled = false;
+		practiceDisabledText.disabled = true;
+		patternInputText.disabled = true;
+		isPattern = false;
+	} else {
+		practicePatterns = true;
+		difficultySliderText.style.color = "#707070";
+		difficultySlider.disabled = true;
+		practiceDisabledText.disabled = false;
+		patternInputText.disabled = false;
+		isPattern = true;
+	}
 }
 
 // toggles fade
@@ -485,6 +638,17 @@ function accClicked() {
 		accuracyDiv.style.display = "block";
 		isBar = true;
 	}
+}
+
+// sets note spacing in practice
+function noteSpacingSet() {
+	practiceSpacing = noteSpacingText.value;
+}
+
+// sets custom pattern in practice
+function practicePatternSet() {
+	customPattern = patternInputText.value;
+	customPattern = customPattern.split(" ");
 }
 
 // sets note color
@@ -541,6 +705,28 @@ function defaultSettings() {
 	fadeBox.checked = true;
 	isFade = false;
 	fadeClicked();
+	accBox.checked = true;
+	isBar = false;
+	accClicked();
+}
+
+// returns practice to default
+function defaultPractice() {
+	difficultySlider.value = 1;
+	difficultySliderText.innerText = 1;
+	practiceDifficulty = 1;
+	spaceBox.checked = true;
+	isScale = false;
+	scaleClicked();
+	patternBox.checked = false;
+	isPattern = true;
+	patternClicked();
+	isScale = false;
+	scaleClicked();
+	noteSpacingText.value = "200";
+	noteSpacingSet();
+	patternInputText.value = "1 2 3 4";
+	practicePatternSet();
 }
 
 // detects keypress for rebind
@@ -566,7 +752,7 @@ function keyWait(k) {
 
 // records key presses
 document.addEventListener("keypress", function onEvent(event) {
-	if (!isSettings) {
+	if (!isSettings && !isPractice) {
 		if (event.key.toLowerCase() === keybinds[0]) {
 			button1.style.backgroundColor = "#6e6e6e";
 			button1.style.color = "#ffffff";
@@ -699,11 +885,11 @@ function judgment(note, dist, time) {
 // subtracts lives
 function lifeLost() {
 	if (isRunning) {
-		lifeList[lives-1].style.display = "none";
-		lives -= 1;
-		if (lives == 0) {
-			gameOver();
-		}
+		//lifeList[lives-1].style.display = "none";
+		//lives -= 1;
+		//if (lives == 0) {
+		//	gameOver();
+		//}
 	}
 }
 
@@ -748,6 +934,10 @@ function gameOver() {
 	accuracy.innerText = (100).toFixed(2) + "%";
 }
 
+function openChangelog() {
+	window.open("https://github.com/W4terF4ll/endless-rhythm/blob/main/CHANGELOG.md")
+}
+
 // displays game over screen
 function displayGameOver() {
 	if (audioCheck) {
@@ -775,6 +965,20 @@ function displayGameOver() {
 	gameOverContainer.classList.add("gameOverOut");
 }
 
+// starts practice mode
+function startPractice() {
+	practiceRunning = true;
+	practiceText.hidden = false;
+	closePractice();
+}
+
+// stops practice mode
+function stopPractice() {
+	practiceRunning = false;
+	practiceText.hidden = true;
+	closePractice();
+}
+
 // starts the charter
 function startCharting() {
 	audioCheck = false;
@@ -782,28 +986,45 @@ function startCharting() {
 	gameOverContainer.style.display = "none";
 	audioCheck = true;
 	loopCount = 0;
-	while (totalDifficulty != startingDifficulty) {
-		difficultyLogic();
+	if (!practiceRunning) {
+		while (totalDifficulty != startingDifficulty) {
+			difficultyLogic();
+		}
 	}
 	isRunning = true;
 	patternSelector();
 	clearInterval(isCharting);
-	isCharting = setInterval(function(){autoCharter()}, noteSpacing);
+	if (!practiceRunning) {
+		isCharting = setInterval(function(){autoCharter()}, noteSpacing);
+	} else {
+		isCharting = setInterval(function(){autoCharter()}, practiceSpacing);
+	}
 }
 
 // selects patterns
 function patternSelector() {
 	previousPattern = currentPattern;
+	if (practiceRunning && practicePatterns) {
+		currentPattern = customPattern;
+		patternHolder = currentPattern;
+		patternLength = currentPattern.length;
+		doubleSelect = true;
+		speedMod = 2;
+		return;
+	}
 	if (patternLoop == 0) {
-		if (randomType == 1 && noteDifficulty > 1) {
+		if (practiceRunning) {
+			randomDiff = practiceDifficulty;
+		} else {
 			randomDiff = Math.floor(Math.random() * (noteDifficulty - (noteDifficulty - 1) + 1) + (noteDifficulty - 1))
+		}
+		if (randomType == 1 && noteDifficulty > 1) {
 			if (randomDiff < 1) {
 				randomDiff = 1;
 			}
 			randomType = 2;
 			patternLoop = Math.floor(Math.random() * 5) + 5;
 		} else {
-			randomDiff = Math.floor(Math.random() * (noteDifficulty - (noteDifficulty - 1) + 1) + (noteDifficulty - 1))
 			if (randomDiff < 1) {
 				randomDiff = 1;
 			}
@@ -885,7 +1106,11 @@ function autoCharter() {
 	}
 	difficultyLogic();
 	clearInterval(isCharting);
-	isCharting = setInterval(function(){autoCharter()}, noteSpacing * speedMod);
+	if (!practiceRunning) {
+		isCharting = setInterval(function(){autoCharter()}, noteSpacing * speedMod);
+	} else {
+		isCharting = setInterval(function(){autoCharter()}, practiceSpacing * speedMod);
+	}
 }
 
 // manages difficulty
@@ -895,7 +1120,11 @@ function difficultyLogic() {
 		audioStageUp.play();
 		spaceDifficulty = 0;
 		spaceIncrease = Math.floor(spaceIncrease * 1.1);
-		noteSpacing = noteSpacing * 0.95;
+		if (!practiceRunning) {
+			noteSpacing = noteSpacing * 0.95;
+		} else if (practiceRunning && practiceScaling) {
+			practiceSpacing = practiceSpacing * 0.95;
+		}
 		nextStage.innerText = "STAGE UP!!";
 		lifeGained();
 		nextStage.classList.remove("stageAnim");
