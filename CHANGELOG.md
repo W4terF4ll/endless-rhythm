@@ -1,7 +1,10 @@
 ## Changelog
 
+### v1.10 5/14/24
+Added practice mode, (hopefully) fixed some saving bugs.
+
 ### v1.00 4/22/24
-MAJOR overhaul to patterns (now divided into jump and stream sections), difficulty scaling rework, slight optimization improvements, new audio, game over quotes, minor tweaks and bug fixes
+MAJOR overhaul to patterns (now divided into jump and stream sections), difficulty scaling rework, slight optimization improvements, new audio, game over quotes, minor tweaks and bug fixes.
 
 ### v0.95 3/12/24
 Caps lock no longer breaks the game, score now formats with commas, lives are now regained when staging up, accuracy has been modified slightly.
