@@ -22,7 +22,7 @@
 		<div id="gameOverContainer" class="gameOverOut">
 			<div id="gameOverHolder" class="gameOverAnim">
 				<div id="gameOverDisplay">GAME OVER</div>
-				<div id="overQuote" class="overFade1">Try increasing note speed!</div>
+				<div id="overQuote" class="overFade1"></div>
 			</div>
 			<div id="gameOverAcc" class="overFade1">ACCURACY
 				<div id="overAcc"></div>
@@ -45,6 +45,7 @@
 			<div class="chartDisplayDiv">
 			</div>
 			<div class="chartDisplayTopDiv">
+				<p id="practiceText" hidden> !! PRACTICE MODE !! </p>
 			</div>
 		</div>
 		<div class="buttonDiv">
@@ -56,6 +57,7 @@
 		<div class="uiDiv">
 			<button class="uiButtons" onclick="startCharting()">Start [<span id="startButtonDisplay">R</span>]</button>
 			<button class="uiButtons" onclick="gameOver()">Stop [<span id="stopButtonDisplay">F</span>]</button>
+			<button class="uiButtons" id="practiceButton" onclick="openPractice()"> Practice </button>
 			<div class="uiHeader">BEST
 				<div class="uiScore" id="highScore">0</div>
 			</div>
@@ -67,6 +69,51 @@
 			</div>
 			<div class="uiHeader">STAGE
 				<div class="uiScore" id="stage">1</div>
+			</div>
+		</div>
+		<div id="practiceContainer">
+			<div id="overlay" onclick="closePractice()">
+			</div>
+			<div id="practiceMenuDiv">
+				<div class="settingsList" id="settingsHeader">Practice Mode</div>
+				<div class="settingsList">
+					<div class="settingsText">Difficulty</div>
+					<input type="range" min="1" max="4" value="1" class="slider" id="difficultySlider">
+					<div id="difficultyText" class="settingsSide">1</div>
+				</div>
+				<div class="settingsList">
+					<div class="settingsText">Start Spacing</div>
+					<input type="text" id="noteSpacingText" placeholder="" value="200">
+					<button class="settingsButton" onclick="noteSpacingSet()">Set</button>
+				</div>
+				<div class="settingsList">
+					<div class="settingsText">Space Scaling</div>
+					<div class="fadeBoxContainer">
+						<input type="checkbox" class="boxSwitch" id="spaceBox" onclick="scaleClicked()">
+					</div>
+				</div>
+				<div class="settingsList">
+					<div class="settingsText">Custom Pattern</div>
+					<div class="fadeBoxContainer">
+						<input type="checkbox" class="boxSwitch" id="patternBox" onclick="patternClicked()">
+					</div>
+				</div>
+				<div class="settingsList">
+					<div class="settingsText">Pattern Input</div>
+					<input type="text" id="patternInputText" placeholder="" value="1 2 3 4" disabled>
+					<button class="settingsButton" id="practiceDisabledText" onclick="practicePatternSet()" disabled>Set</button>
+				</div>
+				<div class="practiceInfoList">
+					<div class="practiceInfoText">Note: 1 = first lane, 2 = second lane... 5 = double note, 6 = triple note, 7 = quad note</div>
+					<div class="practiceInfoText">Examples: [1 2 3 2 3 4], [5 1 2], [6 1 2 4], [7 1 2 3 4]</div>
+				</div>
+				<div class="settingsList" id="settingsFooter">
+					<button class="settingsButton" onclick="defaultPractice()">Default</button>
+					<button class="settingsButton" onclick="saveGame()">Save</button>
+					<button class="settingsButton" onclick="loadGame()">Load</button>
+					<button class="settingsButton" onclick="startPractice()"><span id="startButtonDisplay">Enter</span></button>
+					<button class="settingsButton" onclick="stopPractice()"><span id="stopButtonDisplay">Exit</span></button>
+				</div>
 			</div>
 		</div>
 		<div class="accuracyContainer">
@@ -97,7 +144,7 @@
 			<div id="overlay" onclick="closeSettings()">
 			</div>
 			<div id="menuDiv">
-				<div class="settingsList" id="settingsHeader">Endless Rhythm v1.0</div>
+				<div class="settingsList" id="settingsHeader">Endless Rhythm v1.1</div>
 				<div class="settingsList">
 					<div class="settingsText">Note Speed</div>
 					<input type="range" min="50" max="200" value="100" step="5" class="slider" id="speedSlider">
@@ -145,6 +192,7 @@
 					</div>
 				</div>
 				<div class="settingsList" id="settingsFooter">
+					<button class="settingsButton" onclick="openChangelog()">Changelog</button>
 					<button class="settingsButton" onclick="defaultSettings()">Default</button>
 					<button class="settingsButton" onclick="saveGame()">Save</button>
 					<button class="settingsButton" onclick="loadGame()">Load</button>
