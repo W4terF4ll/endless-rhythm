@@ -1,6 +1,8 @@
 // add a way to disable life loss in practice? (maybe no)
 // allow for multiple custom patterns at once >:3
-// add changelog and credit for urself! :D
+// disable stage up when space scaling is disabled
+// add setting to remove life loss in practice mode
+// normalize speed values in pactice mode (wtf)
 
 // https://i.imgur.com/W4vfn3e.png
 // [1 = first lane, 2 = second lane... 5 = double note, 6 = triple note, 7 = quad note]
