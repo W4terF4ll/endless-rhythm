@@ -8,4 +8,4 @@ Made by W4terF4ll :3
 
 ## Plans
 
-More customization, more settings
+More customization, more settings, bug fixes
