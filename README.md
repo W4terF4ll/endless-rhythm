@@ -8,4 +8,4 @@ Made by W4terF4ll :3
 
 ## Plans
 
-Practice mode, more customization, more settings
+More customization, more settings
