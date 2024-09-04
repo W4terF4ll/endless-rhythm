@@ -414,12 +414,8 @@ function saveGame() {
 	accBoxChecked = accBox.checked;
 	difficultySliderValue = difficultySlider.value;
 	noteSpacingValue = noteSpacingText.value;
-	console.log(spaceBox.checked);
 	spaceBoxChecked = spaceBox.checked;
-	console.log(spaceBoxChecked);
-	console.log(patternBox.checked);
 	patternBoxChecked = patternBox.checked;
-	console.log(patternBoxChecked);
 	patternInputValue = patternInputText.value;
 	localStorage.setItem("speedSliderValue", speedSliderValue);
 	localStorage.setItem("audioSliderValue", audioSliderValue);
